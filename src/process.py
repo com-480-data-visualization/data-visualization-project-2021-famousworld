@@ -12,4 +12,4 @@ if __name__ == "__main__":
     # Work on a small subset to decrease bandwidth
     df = df[:50]
     logger.info("Saving to CSV...")
-    df.to_csv("data/dataset.csv")
+    df.to_csv("data/dataset.csv", index=False)
