@@ -17,7 +17,7 @@ Project Organization
     │                         the creator's initials, and a short `-` delimited description, e.g.
     │                         `1.0-jqp-initial-data-exploration`.
     |
-    ├── pages              <- Generated analysis as Jekyll static website
+    ├── docs              <- Generated analysis as Jekyll static website
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
