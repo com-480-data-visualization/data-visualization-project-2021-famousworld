@@ -6,12 +6,8 @@ EPFL COM-480: Data Visualization semester project
 Project Organization
 ------------
 
-    ├── Makefile           <- Makefile with commands like `make data` or `make jekyll`
     ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   └── processed      <- The final, canonical data sets for visualisation.
+    ├── data               <- The final, canonical data sets for visualisation.
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         the creator's initials, and a short `-` delimited description, e.g.
@@ -22,10 +18,7 @@ Project Organization
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
     │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── data           <- Script to download data
-    │   └── features       <- Scripts to augument the data and prepare it for including into visualization
+    ├── src                <- Data manipulation code for this project.
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
