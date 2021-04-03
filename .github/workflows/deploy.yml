@@ -1,0 +1,16 @@
+name: Process data and deploy static page
+on:
+  push:
+    branches:
+    - "main"
+jobs:
+  build:
+    name: Process dataset and output csv ready for visualization
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the site in the jekyll/builder container
+        run: |
+          docker run \
+          -v ${{ github.workspace }}:/usr/src/famousworld \
+          python:3.8 /bin/bash -c "echo 'New hello world!' > /usr/src/famousworld/docs/index.html"
