@@ -9,5 +9,7 @@ logger = logging.getLogger('dl_project')
 if __name__ == "__main__":
     logger.info("Downloading the CSV...")
     df = pd.read_csv("https://storage.googleapis.com/pantheon-public-data/person_2020_update.csv.bz2")
+    # Work on a small subset to decrease bandwidth
+    df = df[:50]
     logger.info("Saving to CSV...")
     df.to_csv("data/dataset.csv")
