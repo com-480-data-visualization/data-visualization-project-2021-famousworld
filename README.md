@@ -1,12 +1,4 @@
-# FamousWorld
-
-==============================
-
-Course: EPFL COM-480: Data Visualization semester project
-
-Session: Spring 2021
-
-## Team
+# Project of Data Visualization (COM-480)
 
 | Student's name          | SCIPER |
 | ----------------------- | ------ |
@@ -14,15 +6,27 @@ Session: Spring 2021
 | Michal Bien             | 327740 |
 | Anmol Prasad            | 329320 |
 
+[Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
+
 ## Milestone 1
 
 [Click here](./milestones/milestone1.md) to view the Milestone 1
+
+## Milestone 2 (7th May, 5pm)
+
+**10% of the final grade**
+
+## Milestone 3 (4th June, 5pm)
+
+**80% of the final grade**
 
 ## Project Organization
 
     ├── README.md          <- The top-level README for developers using this project.
     ├── data               <- The final, canonical data sets for visualisation.
     │
+    ├── milestones         <- The markdown files, containing the content of the milestones
+    |
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         the creator's initials, and a short `-` delimited description, e.g.
     │                         `1.0-jqp-initial-data-exploration`.
