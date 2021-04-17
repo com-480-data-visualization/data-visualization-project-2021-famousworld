@@ -1,10 +1,24 @@
-FamousWorld
+# FamousWorld
+
 ==============================
 
-EPFL COM-480: Data Visualization semester project
+Course: EPFL COM-480: Data Visualization semester project
 
-Project Organization
-------------
+Session: Spring 2021
+
+## Team
+
+| Student's name          | SCIPER |
+| ----------------------- | ------ |
+| Ravinithesh Annapureddy | 293790 |
+| Michal Bien             | 327740 |
+| Anmol Prasad            | 329320 |
+
+## Milestone 1
+
+[Click here](./milestones/milestone1.md) to view the Milestone 1
+
+## Project Organization
 
     ├── README.md          <- The top-level README for developers using this project.
     ├── data               <- The final, canonical data sets for visualisation.
@@ -22,6 +36,6 @@ Project Organization
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
---------
+---
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
