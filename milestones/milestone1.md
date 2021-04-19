@@ -16,38 +16,23 @@ Primary dimension of the visualisation is the map i.e. real world location. This
 
 ## Exploratory Data Analysis
 
-In the Exploratory Data Analysis (EDA) of the pantheon dataset, we obtain the following information. The notebook for the same can be found [here](). As the data is already clean, we do the following analysis to understand the distribution of the data, and eventually enrich the dataset with wikipedia data of our interest.
-
-### The dataset content
-The Pantheon data is clearly described in the author's paper -- [Pantheon 1.0, a manually verified dataset of globally famous biographies](https://arxiv.org/abs/1502.07310). Therefore, we will skip the detailed description of the dataset as a whole, and will scope on the columns that we plan to use in our analysis.
+The Pantheon data is clearly described in the author's paper -- [Pantheon 1.0, a manually verified dataset of globally famous biographies](https://arxiv.org/abs/1502.07310). Therefore, we will skip the detailed description of the dataset as a whole, and will scope on the columns that we plan to use in our analysis. The notebook for the same can be found [here](https://github.com/com-480-data-visualization/data-visualization-project-2021-famousworld/blob/main/notebooks/PantheonExploratory.ipynb).
 
 ### Spatial data analysis - birth and death locations
 
-The dataset contains the birth and death locations of the samples (famous people).
-Each location is described by tuple of floats, interpretable as the latitude (-90.0, 90.0) and longitude (-180.0, 180.0) in the [spherical coordinate system](https://en.wikipedia.org/wiki/Reference_ellipsoid#Coordinates). The data is not complete, and 3.94% of samples don't have their birth location precised, whereas 58.98% of samples doesn't have their death position precised! Therefore, we will scope on birth locations in this visualization.
-The mean birth position of the famous person in the history lies on (38.057272, 2.035184), which points on the area on Mediterranean between Algier and Ibiza. 
-
-**TODO: Some interesting facts about most-south-born and most-north-born person**
+Each location is described by tuple of floats, interpretable as the latitude and longitude in the [spherical coordinate system](https://en.wikipedia.org/wiki/Reference_ellipsoid#Coordinates). The data is not complete, and birth and deaths are not precised for 4.05%, and 56.78% of samples respectively. The dataset was apparently prepared with higher emphasis of birth date completeness, therefore, we will scope on it as well in out visualization.
 
 ### Temporal data analysis - birth and death date
 
+The dataset provides two columns for both birth and death dates - "year" and "date". Since the year columns are more complete in terms of missing values, as such detailed information are often unknown for historical figures, we decided to use only "birthyear" and "deathyear" columns. In total, 0.48% of birthyears and 54.15% of deathyears are missing. Many entries are just rough approximations: in BC era, 44.30% are the century years (divisible by 100), whereas it's the case only for 1.62% of AD samples.
 
+### Categorical data analysis - occupation
 
-3. Analysis on Year of Births
-
-   - xxx
-
-4. Analysis on Year of Deaths
-
-   - xxx
-
-### Categorical data analysis - occupation and other information of limited interest
-
-   - xxx
-
+The occupation information appears to be extracted from wikidata and not always perfectly fitting the biography. There are no missing values in occupation data column. Each sample is associated with exactly one occupation. There are 101 distinct occupations. The most frequent one is "POLITICIAN" (15585 occurences), and the least frequent - "BULLFIGHTER" (1 occurence).
 
 ### Acquired supplementary data
-Apart from the above mentioned analysis, we create script to use HTTP request to obtain images and short bio of the famous persons from Wikipedia.
+
+Apart from the above mentioned analysis, we create script to use HTTP request to obtain images and short bio of the famous persons from Wikipedia. To do this, we use Wikipedia API. The code for data filtering and enrichment is available [here](https://github.com/com-480-data-visualization/data-visualization-project-2021-famousworld/blob/main/src/process.py)
 
 ## Related Work
 
