@@ -16,17 +16,22 @@ Primary dimension of the visualisation is the map i.e. real world location. This
 
 ## Exploratory Data Analysis
 
-In the Exploratory Data Analysis (EDA) of the pantheon dataset, we obtain the following information. The notebook for the same can be found [here](). As the data is already clean, we do the following analysis to understand the distribution of the data.
+In the Exploratory Data Analysis (EDA) of the pantheon dataset, we obtain the following information. The notebook for the same can be found [here](). As the data is already clean, we do the following analysis to understand the distribution of the data, and eventually enrich the dataset with wikipedia data of our interest.
 
-We divided our first exploratory analysis in 4 parts taking different points of view. Here are the main findings of each one of them:
+### The dataset content
+The Pantheon data is clearly described in the author's paper -- [Pantheon 1.0, a manually verified dataset of globally famous biographies](https://arxiv.org/abs/1502.07310). Therefore, we will skip the detailed description of the dataset as a whole, and will scope on the columns that we plan to use in our analysis.
 
-1. Analysis on Place of Births
+### Spatial data analysis - birth and death locations
 
-   - xxx
+The dataset contains the birth and death locations of the samples (famous people).
+Each location is described by tuple of floats, interpretable as the latitude (-90.0, 90.0) and longitude (-180.0, 180.0) in the [spherical coordinate system](https://en.wikipedia.org/wiki/Reference_ellipsoid#Coordinates). The data is not complete, and 3.94% of samples don't have their birth location precised, whereas 58.98% of samples doesn't have their death position precised! Therefore, we will scope on birth locations in this visualization.
+The mean birth position of the famous person in the history lies on (38.057272, 2.035184), which points on the area on Mediterranean between Algier and Ibiza. 
 
-2. Analysis on Place of Deaths
+**TODO: Some interesting facts about most-south-born and most-north-born person**
 
-   - xxx
+### Temporal data analysis - birth and death date
+
+
 
 3. Analysis on Year of Births
 
@@ -36,10 +41,12 @@ We divided our first exploratory analysis in 4 parts taking different points of 
 
    - xxx
 
-5. Analysis on occupation
+### Categorical data analysis - occupation and other information of limited interest
 
    - xxx
 
+
+### Acquired supplementary data
 Apart from the above mentioned analysis, we create script to use HTTP request to obtain images and short bio of the famous persons from Wikipedia.
 
 ## Related Work
