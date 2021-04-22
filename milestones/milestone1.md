@@ -24,7 +24,7 @@ Each location is described by a tuple of floats, interpretable as the latitude a
 
 #### Birth Distribution
 
-<img src="./../images/birth_distribution.png" width="500">
+<img src="./../images/birth_distribution.png">
 
 #### Death Distribution
 
