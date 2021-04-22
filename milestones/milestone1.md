@@ -32,11 +32,13 @@ Each location is described by a tuple of floats, interpretable as the latitude a
 
 ### Temporal data analysis - birth and death date
 
-The dataset provides two columns for both birth and death dates - "year" and "date". Since the year columns have lesser missing values, as such detailed information is often unknown for historical figures, we decided to use only "birth year" and "death year" columns. In total, 0.48% of birth years and 54.15% of death years are missing. Similar to death locations, 1.46% of dead people do not have a death year. Many entries are just rough approximations: in the BC era, 44.30% are the century years (divisible by 100), whereas it's the case only for 1.62% of AD samples.
+The dataset provides two columns for both birth and death dates - "year" and "date". Since the year columns have lesser missing values, as such detailed information is often unknown for historical figures, we decided to use only "birth year" and "death year" columns. In total, 0.5% of birth years and 52.82% of death years are missing. Similar to death locations, 1.46% of dead people do not have a death date. Many entries are just rough approximations: in the BC era, 44.30% are the century years (divisible by 100), whereas it's the case only for 1.62% of AD samples.
 
 ### Categorical data analysis - occupation
 
 The occupation information appears to be extracted from wikidata and not always perfectly fitting the biography. There are no missing values in the occupation data column. Each sample is associated with exactly one occupation. There are 101 distinct occupations. The most frequent one is "POLITICIAN" (15585 occurrences), and the least frequent - "BULLFIGHTER" (1 occurrence).
+
+<img src="./../images/occupation_distribution.png">
 
 ### Acquired supplementary data
 
