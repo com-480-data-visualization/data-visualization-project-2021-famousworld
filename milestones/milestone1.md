@@ -28,7 +28,7 @@ Each location is described by a tuple of floats, interpretable as the latitude a
 
 #### Death Distribution
 
-<img src="./../images/death_distribution.png" width="500">
+<img src="./../images/death_distribution.png">
 
 ### Temporal data analysis - birth and death date
 
