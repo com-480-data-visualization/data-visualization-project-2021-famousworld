@@ -10,6 +10,8 @@
 
 ## Milestone 1 (23rd April, 5pm)
 
+**10% of the final grade**
+
 [Click here](./milestones/milestone1.md) to view the Milestone 1
 
 ## Milestone 2 (7th May, 5pm)
