@@ -16,8 +16,11 @@ function myFunction() {
   }
 }
 
-w = $(window).width();;
-h = $(window).height();;
+var w = $(window).width();
+var h = $(window).height();
+
+var img_w = $(window).width()/8.0;
+var img_h = $(window).height()/4.0;
 // variables for catching min and max zoom factors
 var minZoom;
 var maxZoom;
@@ -102,6 +105,9 @@ d3.csv("dataset.csv", function(data) {
 			//     iconSize:     [40, 40], // size of the icon
 			//     iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location,  // the same for the shadow
 			// });
+			// var img = new Image();
+			// img.src = d.base64_image;
+			// var img="<img src='"+d.pic+"' />"
 			var img="<img src='"+d.pic+"' />"
 			
 			L.marker([latitude,longitude], {icon: L.divIcon({
@@ -110,9 +116,12 @@ d3.csv("dataset.csv", function(data) {
 		        className: 'image-icon',
 		        // Set a markers width and height.
 		        iconSize: [20, 20],
-		        iconAnchor: [10, 10]
-		        })
-			}).bindPopup("<b>Hello world!</b><br>I am a popup.").addTo(mymap);
+		        iconAnchor: [30, 30],
+		        }),
+				title: d.name,
+			}).bindPopup('<b>Name:</b> '+d.name+'.<br><b>Year of Birth:</b> '+d.birthyear+'.<br><b>Place of Birth:</b> '+d.bplace_name+'.<br><b>Occupation:</b> '+d.occupation+'.<br><b>Year of Death:</b> '+d.deathyear+'.<br><b>Place of Death:</b> '+d.dplace_name+'.<br><img src="'+d.pic+'" width="'+img_w+'" height="'+img_h+'"/><br><b>About:</b> '+d.summary+'.<br>', {
+				maxWidth : w/2,
+			}).addTo(mymap);
 		});
 });
 
