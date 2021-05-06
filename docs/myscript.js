@@ -86,7 +86,7 @@ var myStyle = {
     "opacity": 0.65
 };
 
-d3.json("custom.geo.json", function(json) {
+d3.json("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/custom.geo.json", function(json) {
 		L.geoJSON(json, {
     style: myStyle
 	}).addTo(mymap);
