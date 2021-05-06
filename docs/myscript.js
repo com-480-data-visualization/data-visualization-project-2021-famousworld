@@ -92,7 +92,7 @@ d3.json("custom.geo.json", function(json) {
 	}).addTo(mymap);
 });
 
-d3.csv("dataset.csv", function(data) {
+d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv", function(data) {
 		data.forEach(function(d, i) {
 			
 			var longitude = parseFloat(d.bplace_lon);
