@@ -1,0 +1,153 @@
+body {
+  margin: 0;
+  background-color: #2A2C39;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-weight: 200;
+  font-size: 17px;
+  overflow: hidden;
+  padding: 0;
+}
+#map-holder {
+  width: 100vw;
+  height: 100vh;
+  background: #2A2C39;
+}
+
+.image-icon img {
+    height: 40px ;
+    width: 40px ;
+    border-radius: 50%;
+    border: solid;
+    border-color: green;
+}
+
+svg rect {
+  fill: #2A2C39;   /* map background colour */
+}
+.country{
+  fill: #d0d0d0;   /* country colour */
+  stroke: #2A2C39; /* country border colour */
+  stroke-width: 1; /* country border width */
+}
+.country-on{
+  fill: #4B5358;   /* highlight colour for selected country */
+}
+.countryLabel{
+  display: none;   /* hide all country labels by default */
+}
+.countryName{
+  fill: #FFFAFF;   /* country label text colour */
+}
+.countryLabelBg{
+  fill: #30BCED;   /* country label background colour */
+}
+
+.person {
+  height: 85px;
+  width: 85px;
+  background-color: olivedrab;
+  border-radius: 50%;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  font-size: 43px;
+  z-index: 2;
+}
+
+.fa-user {
+  position: relative;
+  top: 17px;
+  left: 27px;
+  color: white;
+}
+
+.person-items {
+  height: 80px;
+  width: 80px;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  }
+  .person-items>div{
+    background-color: white;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    position: relative;
+    text-align: center;
+    font-size: 43px;
+    transition: 0.7s linear;
+  }
+  .pob {
+    bottom: 80px;
+  }
+  .prof {
+    bottom: 160px;
+  }
+  .dod {
+    bottom: 240px;
+  }
+  .pod {
+    bottom: 320px;
+  }
+  .person-items>div:hover{
+    background-color: blue
+  }
+  .person-items>div:hover a {
+    color: white;
+  }
+
+#overlay {
+    position: fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+  }
+  
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#navbar {
+  overflow: hidden;
+  background-color: #333;
+}
+
+/* Navbar links */
+#navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+/* Page content */
+.content {
+  padding: 16px;
+}
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+  padding-top: 60px;
+}
