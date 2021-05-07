@@ -18,6 +18,8 @@
 
 **10% of the final grade**
 
+[Click here](./milestones/Milestone2.pdf) to view the Milestone 2.
+
 ## Milestone 3 (4th June, 5pm)
 
 **80% of the final grade**
