@@ -1,0 +1,21 @@
+.grid-container {
+  display: grid;
+  width: 100vw;
+  height:80vh;
+  grid-template-columns: 0.2fr 1fr 1fr 1fr 1fr 0.2fr;
+  grid-template-rows: 0.2fr 1fr 1fr 1fr 1fr 0.2fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    ". . . . . ."
+    ". Basic-Info Basic-Info Image Image ."
+    ". Basic-Info Basic-Info Image Image ."
+    ". Summary Summary Summary Summary ."
+    ". Summary Summary Summary Summary ."
+    ". . . . . .";
+}
+
+.Image { grid-area: Image; }
+
+.Basic-Info { grid-area: Basic-Info; }
+
+.Summary { grid-area: Summary; }
