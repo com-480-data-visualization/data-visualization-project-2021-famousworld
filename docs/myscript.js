@@ -62,18 +62,21 @@ d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv",
 			
 			var longitude = parseFloat(d.bplace_lon);
 			var latitude = parseFloat(d.bplace_lat);
+			var imgname = d.pic.split("/")
+			var imgname = imgname[imgname.length - 1]
 			
-			var img="<img src='"+d.pic+"' loading='lazy' />"
+			var img="<img src='https://commons.wikimedia.org/w/thumb.php?width=64&f="+ imgname +"' loading='lazy' />"
 
 
 			
-			L.marker(L.latLng(latitude,longitude), {icon: L.divIcon({
-		        html: img,
-		        // Specify a class name we can refer to in CSS.
-		        className: 'image-icon',
-		        // Set a markers width and height.
-		        iconSize: [20, 20],
-		        iconAnchor: [30, 30],
+			var marker = L.marker(L.latLng(latitude,longitude), {
+				icon: L.divIcon({
+					html: img,
+					// Specify a class name we can refer to in CSS.
+					className: 'image-icon',
+					// Set a markers width and height.
+					iconSize: [20, 20],
+					iconAnchor: [30, 30],
 		        }),
 				title: d.name,
 			}).bindPopup('<b>Name:</b> '+d.name+'.<br><b>Year of Birth:</b> '+d.birthyear+'.<br><b>Place of Birth:</b> '+d.bplace_name+'.<br><b>Occupation:</b> '+d.occupation+'.<br><b>Year of Death:</b> '+d.deathyear+'.<br><b>Place of Death:</b> '+d.dplace_name+'.<br><img src="'+d.pic+'" width="'+img_w+'" height="'+img_h+'"/><br><b>About:</b> '+d.summary+'.<br>', {
