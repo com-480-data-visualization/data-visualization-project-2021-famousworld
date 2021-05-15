@@ -57,7 +57,6 @@ var myStyle = {
 };
 
 
-
 d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv", function(data) {
 		data.forEach(function(d, i) {
 			

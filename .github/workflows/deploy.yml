@@ -4,6 +4,7 @@ on:
     paths:
     - 'src/**'
     - '.github/**'
+    - 'data/**'
     branches:
       - 'main'
 jobs:
