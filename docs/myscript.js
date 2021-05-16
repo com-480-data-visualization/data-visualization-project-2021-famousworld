@@ -62,11 +62,25 @@ var markers = []
 // input: list of professions and 
 function updateMarkers(professionConstrain, birthFrom, birthTo) {
 	markers.forEach(function(d, i){
-		var activate = false;
-		if(professionConstrain.length==0) {
-			activate = true;
-		} else if(professionConstrain.includes(d.data.occupation)) {
-			activate = true;
+		var activate = true;
+		// Profession filter
+		if(professionConstrain.length>0) {
+			if(!professionConstrain.includes(d.data.occupation)) {
+				activate = false;
+			}
+		}
+
+		//Birth from filter
+		if(birthFrom != null) {
+			if(parseInt(d.data.birthyear) < birthFrom) {
+				activate = false;
+			}
+		}
+
+		if(birthTo != null) {
+			if(parseInt(d.data.birthyear) > birthTo) {
+				activate = false;
+			}
 		}
 
 		if(!d.active && activate) {
@@ -135,13 +149,57 @@ data.then(function(data) {
 		dropdownParent: $(".sidebar-content")
 	});
 
-	updateMarkers([], null, null);
+	updateMarkers([], -3500, 2021);
 });
 
 var sidebar = L.control.sidebar('sidebar').addTo(mymap);
 var zoomControl = L.control.zoom({ position: 'topright' }).addTo(mymap);
 
+var fromValue = document.getElementById('from');
+var toValue = document.getElementById('to');
+
+
 $('#profession-selector').on('select2:select select2:unselect', function (e) {
     var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text)
-    updateMarkers(selected, null, null);
+    updateMarkers(selected, fromValue.value, toValue.value);
 });
+
+var slider = document.getElementById('lifespan-slider');
+noUiSlider.create(slider, {
+    start: [-3500, 2021],
+    connect: true,
+    range: {
+        'min': -3500,
+        'max': 2021
+    },
+	format: wNumb({
+        decimals: 0
+    })
+});
+
+
+fromValue.addEventListener('change', function (event) {
+    slider.noUiSlider.setHandle(0, event.target.value);
+
+	var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+	updateMarkers(selected, fromValue.value, toValue.value);
+});
+
+toValue.addEventListener('change', function (event) {
+    slider.noUiSlider.setHandle(1, event.target.value);
+
+	var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+	updateMarkers(selected, fromValue.value, toValue.value);
+});
+
+slider.noUiSlider.on('update', function (values, handle) {
+    if (handle) {
+        toValue.value = values[handle];
+    } else {
+        fromValue.value = values[handle];
+    }
+
+	var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+	updateMarkers(selected, fromValue.value, toValue.value);
+});
+

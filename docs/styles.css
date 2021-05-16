@@ -49,3 +49,18 @@ body {
 .select2-container {
   color: black;
 }
+
+.lifespan-input {
+  margin-top: 2vh;
+}
+
+.lifespan-input input {
+  float: right;
+  width: 70%
+}
+
+.lifespan-input label {
+    text-align: right;
+    clear: both;
+    float:left;
+}
