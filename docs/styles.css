@@ -19,8 +19,6 @@ body {
 
 #map-holder {
   background: #2A2C39;
-  grid-row: 2;
-  grid-column: 2;
 }
 
 .image-icon img {
@@ -50,10 +48,10 @@ body {
 }
 
 
-#sidebar {
+/* #sidebar {
   overflow: hidden;
   background-color: #333;
-}
+} */
 
 #navbar {
   overflow: hidden;
@@ -84,7 +82,7 @@ body {
   color: white;
 }
 
-#sidebar {
+/* #sidebar {
   width: 100%;
   background-color: black;
   color: white;
@@ -101,4 +99,4 @@ body {
   margin-top: 1vh;
   margin-bottom: 1vh;
   height: 100%
-}
+} */

@@ -1,6 +1,6 @@
 
 // Get the navbar
-var navbar = document.getElementById("navbar");
+//var navbar = document.getElementById("navbar");
 
 
 
@@ -86,3 +86,4 @@ d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv",
 		});
 });
 
+var sidebar = L.control.sidebar('sidebar').addTo(mymap);
