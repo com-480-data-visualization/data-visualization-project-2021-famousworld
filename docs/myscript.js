@@ -56,6 +56,29 @@ var myStyle = {
 
 };
 
+var markers = []
+
+// This function is in charge of filtering the markers as we wish
+// input: list of professions and 
+function updateMarkers(professionConstrain, birthFrom, birthTo) {
+	markers.forEach(function(d, i){
+		var activate = false;
+		if(professionConstrain.length==0) {
+			activate = true;
+		} else if(professionConstrain.includes(d.data.occupation)) {
+			activate = true;
+		}
+
+		if(!d.active && activate) {
+			mymap.addLayer(d.marker);
+			d.active = true;
+		} else if(d.active && !activate) {
+			mymap.removeLayer(d.marker);
+			d.active = false;
+		}
+	});
+}
+
 const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
 data.then(function(data) {
 
@@ -85,9 +108,15 @@ data.then(function(data) {
 		}).bindPopup('<b>Name:</b> '+d.name+'.<br><b>Year of Birth:</b> '+d.birthyear+'.<br><b>Place of Birth:</b> '+d.bplace_name+'.<br><b>Occupation:</b> '+d.occupation+'.<br><b>Year of Death:</b> '+d.deathyear+'.<br><b>Place of Death:</b> '+d.dplace_name+'.<br><img src="'+d.pic+'" width="'+img_w+'" height="'+img_h+'"/><br><b>About:</b> '+d.summary+'.<br>', {
 			maxWidth : w*0.6,
 			maxHeight : h*0.4,
-		}).addTo(mymap);
+		})
+		
+		markers.push({
+			'data': d,
+			'marker': marker,
+			'active': false
+		})
 
-		professionOptions.push(d.occupation)
+		professionOptions.push(d.occupation);
 	});
 
 	//Load the profession data into selector
@@ -98,8 +127,6 @@ data.then(function(data) {
 	var professionOptionsReady = professionOptionsUnique.map(function(value, index, self) {
 		return {id: index, text: value};
 	});
-
-	console.log(professionOptionsReady);
 	
 	$('#profession-selector').select2({
 		placeholder: 'Select an option',
@@ -107,7 +134,14 @@ data.then(function(data) {
 		data: professionOptionsReady,
 		dropdownParent: $(".sidebar-content")
 	});
+
+	updateMarkers([], null, null);
 });
 
 var sidebar = L.control.sidebar('sidebar').addTo(mymap);
 var zoomControl = L.control.zoom({ position: 'topright' }).addTo(mymap);
+
+$('#profession-selector').on('select2:select select2:unselect', function (e) {
+    var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text)
+    updateMarkers(selected, null, null);
+});
