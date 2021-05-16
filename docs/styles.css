@@ -1,3 +1,7 @@
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
   background-color: #111;
@@ -6,19 +10,12 @@ body {
   font-size: 17px;
   overflow: hidden;
   padding: 0;
-}
-
-.grid-container {
-  display: grid;
-  width: 100%;
   height: 100%;
-  grid-template-columns: 1fr 3fr;
-  grid-template-rows: 40px auto;
-  position: absolute;
 }
 
 #map-holder {
   background: #2A2C39;
+  height: 100%;
 }
 
 .image-icon img {
@@ -81,22 +78,3 @@ body {
   background-color: #04AA6D;
   color: white;
 }
-
-/* #sidebar {
-  width: 100%;
-  background-color: black;
-  color: white;
-  grid-column: 1;
-  grid-row: 2;
-  display: grid;
-  grid-gap: 30px;
-  grid-template-rows: 1fr 2fr 1fr;
-}
-
-#sidebar fieldset {
-  border-color: #04AA6D;
-  border-radius: 1vw;
-  margin-top: 1vh;
-  margin-bottom: 1vh;
-  height: 100%
-} */

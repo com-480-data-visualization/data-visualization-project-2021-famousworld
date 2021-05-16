@@ -17,7 +17,7 @@ var mymap = L.map('map-holder', {
                     zoom: 2,
                     maxZoom: 19,
                     scrollWheelZoom: true,
-                    zoomControl: true,
+                    zoomControl: false,
                     noWrap: true,
                     zoomAnimation: true,
                     markerZoomAnimation: true,
@@ -87,3 +87,5 @@ d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv",
 });
 
 var sidebar = L.control.sidebar('sidebar').addTo(mymap);
+
+var zoomControl = L.control.zoom({ position: 'topright' }).addTo(mymap);
