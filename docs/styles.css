@@ -64,3 +64,16 @@ body {
     clear: both;
     float:left;
 }
+
+.popup-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
+.popup-summary {
+  grid-column: 1 / 4;
+}
+
+.popup-info {
+  grid-column: 3
+}

@@ -93,6 +93,25 @@ function updateMarkers(professionConstrain, birthFrom, birthTo) {
 	});
 }
 
+var popupTemplate = `
+<div class="popup-container">
+	<div class="popup-image">
+		<img src="%PICURL%" width="%PICW%" height="%PICH%"/>
+	</div>
+	<div class="popup-info">
+		<p><b>Name: </b> %NAME%.</p>
+		<p><b>Year of Birth:</b> %YOB%.</p>
+		<p><b>Place of Birth:</b> %POB%.</p>
+		<p><b>Occupation:</b> %OCC%.</p>
+		<p><b>Year of Death:</b> %YOD%.</p>
+		<p><b>Place of Death:</b> %POD%.</p>
+	</div>
+	<div class="popup-summary">
+		<p><b>About:</b> %SUM%.</p>
+	</div>
+</div>
+`;
+
 const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
 data.then(function(data) {
 
@@ -107,7 +126,16 @@ data.then(function(data) {
 		
 		var img="<img src='https://commons.wikimedia.org/w/thumb.php?width=64&f="+ imgname +"' loading='lazy' />"
 
-
+		var popupText = popupTemplate.replace("%NAME%", d.name)
+									 .replace("%YOB%", d.birthyear)
+									 .replace("%POB%", d.bplace_name)
+									 .replace("%OCC%", d.occupation)
+									 .replace("%YOD%", d.deathyear)
+									 .replace("%POD%", d.dplace_name)
+									 .replace("%PICURL%", d.pic)
+									 .replace("%PICW%", img_w)
+									 .replace("%PICH%", img_h)
+									 .replace("%SUM%", d.summary)
 		
 		var marker = L.marker(L.latLng(latitude,longitude), {
 			icon: L.divIcon({
@@ -119,7 +147,7 @@ data.then(function(data) {
 				iconAnchor: [30, 30],
 			}),
 			title: d.name,
-		}).bindPopup('<b>Name:</b> '+d.name+'.<br><b>Year of Birth:</b> '+d.birthyear+'.<br><b>Place of Birth:</b> '+d.bplace_name+'.<br><b>Occupation:</b> '+d.occupation+'.<br><b>Year of Death:</b> '+d.deathyear+'.<br><b>Place of Death:</b> '+d.dplace_name+'.<br><img src="'+d.pic+'" width="'+img_w+'" height="'+img_h+'"/><br><b>About:</b> '+d.summary+'.<br>', {
+		}).bindPopup(popupText, {
 			maxWidth : w*0.6,
 			maxHeight : h*0.4,
 		})
