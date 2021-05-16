@@ -56,36 +56,58 @@ var myStyle = {
 
 };
 
+const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
+data.then(function(data) {
 
-d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv", function(data) {
-		data.forEach(function(d, i) {
-			
-			var longitude = parseFloat(d.bplace_lon);
-			var latitude = parseFloat(d.bplace_lat);
-			var imgname = d.pic.split("/")
-			var imgname = imgname[imgname.length - 1]
-			
-			var img="<img src='https://commons.wikimedia.org/w/thumb.php?width=64&f="+ imgname +"' loading='lazy' />"
+	var professionOptions = [];
+
+	data.forEach(function(d, i) {
+		
+		var longitude = parseFloat(d.bplace_lon);
+		var latitude = parseFloat(d.bplace_lat);
+		var imgname = d.pic.split("/")
+		var imgname = imgname[imgname.length - 1]
+		
+		var img="<img src='https://commons.wikimedia.org/w/thumb.php?width=64&f="+ imgname +"' loading='lazy' />"
 
 
-			
-			var marker = L.marker(L.latLng(latitude,longitude), {
-				icon: L.divIcon({
-					html: img,
-					// Specify a class name we can refer to in CSS.
-					className: 'image-icon',
-					// Set a markers width and height.
-					iconSize: [20, 20],
-					iconAnchor: [30, 30],
-		        }),
-				title: d.name,
-			}).bindPopup('<b>Name:</b> '+d.name+'.<br><b>Year of Birth:</b> '+d.birthyear+'.<br><b>Place of Birth:</b> '+d.bplace_name+'.<br><b>Occupation:</b> '+d.occupation+'.<br><b>Year of Death:</b> '+d.deathyear+'.<br><b>Place of Death:</b> '+d.dplace_name+'.<br><img src="'+d.pic+'" width="'+img_w+'" height="'+img_h+'"/><br><b>About:</b> '+d.summary+'.<br>', {
-				maxWidth : w*0.6,
-				maxHeight : h*0.4,
-			}).addTo(mymap);
-		});
+		
+		var marker = L.marker(L.latLng(latitude,longitude), {
+			icon: L.divIcon({
+				html: img,
+				// Specify a class name we can refer to in CSS.
+				className: 'image-icon',
+				// Set a markers width and height.
+				iconSize: [20, 20],
+				iconAnchor: [30, 30],
+			}),
+			title: d.name,
+		}).bindPopup('<b>Name:</b> '+d.name+'.<br><b>Year of Birth:</b> '+d.birthyear+'.<br><b>Place of Birth:</b> '+d.bplace_name+'.<br><b>Occupation:</b> '+d.occupation+'.<br><b>Year of Death:</b> '+d.deathyear+'.<br><b>Place of Death:</b> '+d.dplace_name+'.<br><img src="'+d.pic+'" width="'+img_w+'" height="'+img_h+'"/><br><b>About:</b> '+d.summary+'.<br>', {
+			maxWidth : w*0.6,
+			maxHeight : h*0.4,
+		}).addTo(mymap);
+
+		professionOptions.push(d.occupation)
+	});
+
+	//Load the profession data into selector
+	var professionOptionsUnique = professionOptions.filter(function(value, index, self) {
+		return self.indexOf(value) === index;
+	});
+	
+	var professionOptionsReady = professionOptionsUnique.map(function(value, index, self) {
+		return {id: index, text: value};
+	});
+
+	console.log(professionOptionsReady);
+	
+	$('#profession-selector').select2({
+		placeholder: 'Select an option',
+		width: 'resolve',
+		data: professionOptionsReady,
+		dropdownParent: $(".sidebar-content")
+	});
 });
 
 var sidebar = L.control.sidebar('sidebar').addTo(mymap);
-
 var zoomControl = L.control.zoom({ position: 'topright' }).addTo(mymap);

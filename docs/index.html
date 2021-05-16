@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
   <link rel="stylesheet" href="leaflet-sidebar.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"/>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -28,11 +29,19 @@
                 <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
             </h1>
 
-            <p>A responsive map of famous people in the history of world.</p>
+            <p>A responsive map of famous people in the history of world based on data from 
+              <a href="https://pantheon.world">PANTHEON</a> and <a href="https://wikipedia.org">Wikipedia</a>.</p>
 
-            <p></p>
+            <p>This project was created for COM-480: Data Visualization class on <a href="https://epfl.ch">EPFL</a> by the proud team:
+              <ul>
+                <li>Ravinithesh Annapureddy</li>
+                <li>Michal Bien</li>
+                <li>Anmol Prasad</li>
+              </ul>
+            </p>
 
-            <p class="lorem"></p>
+            <p>You can select the prefered timespan and profession to narrow down the list of famous people to your search needs. 
+              Then, explore the historical information by clicking on the photo marker. It's as simple as that!</p>
         </div>
 
         <div class="sidebar-pane" id="timespan">
@@ -41,16 +50,23 @@
 
         <div class="sidebar-pane" id="profession">
             <h1 class="sidebar-header">Profession<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            <p>
+              Select the profession filters from the list. Multiple choices are available.
+            </p>
+            <div class="select2-selector">
+            <select id="profession-selector" style="width: 100%;" multiple="multiple"></select>
+            </div>
         </div>
     </div>
   </div>
   <div id="map-holder" class="sidebar-map"></div>
 
 
-  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="https://d3js.org/d3.v6.js"></script>
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
   <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script src="leaflet-sidebar.js"></script>
   <script src="myscript.js"></script>

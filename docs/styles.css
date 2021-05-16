@@ -2,6 +2,10 @@ html {
   height: 100%;
 }
 
+a {
+  color: white;
+}
+
 body {
   margin: 0;
   background-color: #111;
@@ -34,9 +38,7 @@ body {
 .country-on{
   fill: #4B5358;   /* highlight colour for selected country */
 }
-/*.countryLabel{
-  display: none;    hide all country labels by default 
-*/}
+
 .countryName{
   fill: #FFFAFF;   /* country label text colour */
 }
@@ -44,37 +46,6 @@ body {
   fill: #30BCED;   /* country label background colour */
 }
 
-
-/* #sidebar {
-  overflow: hidden;
-  background-color: #333;
-} */
-
-#navbar {
-  overflow: hidden;
-  background-color: #333;
-  grid-column: 1 / 3;
-  grid-row: 1;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr) 7fr;
-}
-
-/* Navbar links */
-#navbar a {
-  height: 100%;
-  color: #f2f2f2;
-  text-align: center;
-  text-decoration: none;
-  vertical-align: middle;
-}
-
-#navbar a:hover {
-  background-color: #ddd;
+.select2-container {
   color: black;
-}
-
-/* Add a color to the active/current link */
-#navbar a.active {
-  background-color: #04AA6D;
-  color: white;
 }
