@@ -1,25 +1,43 @@
 
 <meta charset="utf-8">
 <head>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-   crossorigin=""/>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js"></script>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin=""></script>
-<link rel="stylesheet" href="styles.css">
-<div id="navbar">
-  <a class="active" href="#home">Home</a>
-  <a href="about.html">Information</a>
-  <a href="">Report</a>
-  <a href="">Video</a>
-</div>
-<div id="map-holder"></div>
-<img id="sidebar" src="sidebar_dark.png">
-<script src="myscript.js"></script>
+<body>
+  <div class="grid-container">
+    <div id="navbar">
+      <a class="active" href="#home">Home</a>
+      <a href="about.html">Information</a>
+      <a href="">Report</a>
+      <a href="">Video</a>
+    </div>
+    <div id="map-holder"></div>
+    <div id="sidebar">
+      <div id="birthyear" style="height: 20vh;">
+        <fieldset>
+        <label>Birth year</label>
+
+        </fieldset>
+
+      </div>
+      <div id="hindexdist">
+        <fieldset>
+          <label>Graph of h-index distribution in the selected year range</label>
+        </fieldset>
+      </div>
+      <div id="occupation">
+        <fieldset>
+          <label>Occupation</label>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="myscript.js"></script>
+</body>
