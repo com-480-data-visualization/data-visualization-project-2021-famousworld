@@ -1,3 +1,11 @@
+html {
+  height: 100%;
+}
+
+a {
+  color: white;
+}
+
 body {
   margin: 0;
   background-color: #111;
@@ -6,15 +14,12 @@ body {
   font-size: 17px;
   overflow: hidden;
   padding: 0;
+  height: 100%;
 }
+
 #map-holder {
-  width: 80vw;
-  height: 100vh;
   background: #2A2C39;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  top: 6.5vh;
+  height: 100%;
 }
 
 .image-icon img {
@@ -33,9 +38,7 @@ body {
 .country-on{
   fill: #4B5358;   /* highlight colour for selected country */
 }
-/*.countryLabel{
-  display: none;    hide all country labels by default 
-*/}
+
 .countryName{
   fill: #FFFAFF;   /* country label text colour */
 }
@@ -43,44 +46,34 @@ body {
   fill: #30BCED;   /* country label background colour */
 }
 
-
-#sidebar {
-  overflow: hidden;
-  background-color: #333;
-  width: 20vw;
-  top: 6.5vh;
-}
-
-#navbar {
-  overflow: hidden;
-  background-color: #333;
-  height: 6.5vh;
-  /*padding-left: 20vw;*/
-}
-
-/* Navbar links */
-#navbar a {
-
-  float: left;
-  display: block;
-  height: 6.5vh;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px;
-  text-decoration: none;
-}
-
-#navbar a:hover {
-  background-color: #ddd;
+.select2-container {
   color: black;
 }
 
-/* Add a color to the active/current link */
-#navbar a.active {
-  background-color: #04AA6D;
-  color: white;
+.lifespan-input {
+  margin-top: 2vh;
 }
 
-.content{
-  padding: 16px;
+.lifespan-input input {
+  float: right;
+  width: 70%
+}
+
+.lifespan-input label {
+    text-align: right;
+    clear: both;
+    float:left;
+}
+
+.popup-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
+.popup-summary {
+  grid-column: 1 / 4;
+}
+
+.popup-info {
+  grid-column: 3
 }

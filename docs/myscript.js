@@ -1,6 +1,6 @@
 
 // Get the navbar
-var navbar = document.getElementById("navbar");
+//var navbar = document.getElementById("navbar");
 
 
 
@@ -17,7 +17,7 @@ var mymap = L.map('map-holder', {
                     zoom: 2,
                     maxZoom: 19,
                     scrollWheelZoom: true,
-                    zoomControl: true,
+                    zoomControl: false,
                     noWrap: true,
                     zoomAnimation: true,
                     markerZoomAnimation: true,
@@ -56,30 +56,178 @@ var myStyle = {
 
 };
 
+var markers = []
 
-d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv", function(data) {
-		data.forEach(function(d, i) {
-			
-			var longitude = parseFloat(d.bplace_lon);
-			var latitude = parseFloat(d.bplace_lat);
-			
-			var img="<img src='"+d.pic+"' loading='lazy' />"
+// This function is in charge of filtering the markers as we wish
+// input: list of professions and 
+function updateMarkers(professionConstrain, birthFrom, birthTo) {
+	markers.forEach(function(d, i){
+		var activate = true;
+		// Profession filter
+		if(professionConstrain.length>0) {
+			if(!professionConstrain.includes(d.data.occupation)) {
+				activate = false;
+			}
+		}
+
+		//Birth from filter
+		if(birthFrom != null) {
+			if(parseInt(d.data.birthyear) < birthFrom) {
+				activate = false;
+			}
+		}
+
+		if(birthTo != null) {
+			if(parseInt(d.data.birthyear) > birthTo) {
+				activate = false;
+			}
+		}
+
+		if(!d.active && activate) {
+			mymap.addLayer(d.marker);
+			d.active = true;
+		} else if(d.active && !activate) {
+			mymap.removeLayer(d.marker);
+			d.active = false;
+		}
+	});
+}
+
+var popupTemplate = `
+<div class="popup-container">
+	<div class="popup-image">
+		<img src="%PICURL%" width="%PICW%" height="%PICH%"/>
+	</div>
+	<div class="popup-info">
+		<p><b>Name: </b> %NAME%.</p>
+		<p><b>Year of Birth:</b> %YOB%.</p>
+		<p><b>Place of Birth:</b> %POB%.</p>
+		<p><b>Occupation:</b> %OCC%.</p>
+		<p><b>Year of Death:</b> %YOD%.</p>
+		<p><b>Place of Death:</b> %POD%.</p>
+	</div>
+	<div class="popup-summary">
+		<p><b>About:</b> %SUM%.</p>
+	</div>
+</div>
+`;
+
+const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
+data.then(function(data) {
+
+	var professionOptions = [];
+
+	data.forEach(function(d, i) {
+		
+		var longitude = parseFloat(d.bplace_lon);
+		var latitude = parseFloat(d.bplace_lat);
+		var imgname = d.pic.split("/")
+		var imgname = imgname[imgname.length - 1]
+		
+		var img="<img src='https://commons.wikimedia.org/w/thumb.php?width=64&f="+ imgname +"' loading='lazy' />"
+
+		var popupText = popupTemplate.replace("%NAME%", d.name)
+									 .replace("%YOB%", d.birthyear)
+									 .replace("%POB%", d.bplace_name)
+									 .replace("%OCC%", d.occupation)
+									 .replace("%YOD%", d.deathyear)
+									 .replace("%POD%", d.dplace_name)
+									 .replace("%PICURL%", d.pic)
+									 .replace("%PICW%", img_w)
+									 .replace("%PICH%", img_h)
+									 .replace("%SUM%", d.summary)
+		
+		var marker = L.marker(L.latLng(latitude,longitude), {
+			icon: L.divIcon({
+				html: img,
+				// Specify a class name we can refer to in CSS.
+				className: 'image-icon',
+				// Set a markers width and height.
+				iconSize: [20, 20],
+				iconAnchor: [30, 30],
+			}),
+			title: d.name,
+		}).bindPopup(popupText, {
+			maxWidth : w*0.6,
+			maxHeight : h*0.4,
+		})
+		
+		markers.push({
+			'data': d,
+			'marker': marker,
+			'active': false
+		})
+
+		professionOptions.push(d.occupation);
+	});
+
+	//Load the profession data into selector
+	var professionOptionsUnique = professionOptions.filter(function(value, index, self) {
+		return self.indexOf(value) === index;
+	});
+	
+	var professionOptionsReady = professionOptionsUnique.map(function(value, index, self) {
+		return {id: index, text: value};
+	});
+	
+	$('#profession-selector').select2({
+		placeholder: 'Select an option',
+		width: 'resolve',
+		data: professionOptionsReady,
+		dropdownParent: $(".sidebar-content")
+	});
+
+	updateMarkers([], -3500, 2021);
+});
+
+var sidebar = L.control.sidebar('sidebar').addTo(mymap);
+var zoomControl = L.control.zoom({ position: 'topright' }).addTo(mymap);
+
+var fromValue = document.getElementById('from');
+var toValue = document.getElementById('to');
 
 
-			
-			L.marker(L.latLng(latitude,longitude), {icon: L.divIcon({
-		        html: img,
-		        // Specify a class name we can refer to in CSS.
-		        className: 'image-icon',
-		        // Set a markers width and height.
-		        iconSize: [20, 20],
-		        iconAnchor: [30, 30],
-		        }),
-				title: d.name,
-			}).bindPopup('<b>Name:</b> '+d.name+'.<br><b>Year of Birth:</b> '+d.birthyear+'.<br><b>Place of Birth:</b> '+d.bplace_name+'.<br><b>Occupation:</b> '+d.occupation+'.<br><b>Year of Death:</b> '+d.deathyear+'.<br><b>Place of Death:</b> '+d.dplace_name+'.<br><img src="'+d.pic+'" width="'+img_w+'" height="'+img_h+'"/><br><b>About:</b> '+d.summary+'.<br>', {
-				maxWidth : w*0.6,
-				maxHeight : h*0.4,
-			}).addTo(mymap);
-		});
+$('#profession-selector').on('select2:select select2:unselect', function (e) {
+    var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text)
+    updateMarkers(selected, fromValue.value, toValue.value);
+});
+
+var slider = document.getElementById('lifespan-slider');
+noUiSlider.create(slider, {
+    start: [-3500, 2021],
+    connect: true,
+    range: {
+        'min': -3500,
+        'max': 2021
+    },
+	format: wNumb({
+        decimals: 0
+    })
+});
+
+
+fromValue.addEventListener('change', function (event) {
+    slider.noUiSlider.setHandle(0, event.target.value);
+
+	var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+	updateMarkers(selected, fromValue.value, toValue.value);
+});
+
+toValue.addEventListener('change', function (event) {
+    slider.noUiSlider.setHandle(1, event.target.value);
+
+	var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+	updateMarkers(selected, fromValue.value, toValue.value);
+});
+
+slider.noUiSlider.on('update', function (values, handle) {
+    if (handle) {
+        toValue.value = values[handle];
+    } else {
+        fromValue.value = values[handle];
+    }
+
+	var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+	updateMarkers(selected, fromValue.value, toValue.value);
 });
 

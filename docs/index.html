@@ -1,25 +1,86 @@
-
+<!DOCTYPE html>
+<html lang="en">
 <meta charset="utf-8">
 <head>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-   crossorigin=""/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+  <link rel="stylesheet" href="leaflet-sidebar.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js"></script>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin=""></script>
-<link rel="stylesheet" href="styles.css">
-<div id="navbar">
-  <a class="active" href="#home">Home</a>
-  <a href="about.html">Information</a>
-  <a href="">Report</a>
-  <a href="">Video</a>
-</div>
-<div id="map-holder"></div>
-<img id="sidebar" src="sidebar_dark.png">
-<script src="myscript.js"></script>
+<body>
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-tabs">
+        <ul role="tablist">
+            <li class="active"><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+            <li><a href="#timespan" role="tab"><i class="fas fa-hourglass-half"></i></a></li>
+            <li><a href="#profession" role="tab"><i class="fas fa-brain"></i></a></li>
+            <li><a href="https://github.com/com-480-data-visualization/data-visualization-project-2021-famousworld" role="tab" target="_blank"><i class="fab fa-github"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="sidebar-content">
+        <div class="sidebar-pane active" id="home">
+            <h1 class="sidebar-header">
+                Famous World
+                <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+            </h1>
+
+            <p>A responsive map of famous people in the history of world based on data from 
+              <a href="https://pantheon.world">PANTHEON</a> and <a href="https://wikipedia.org">Wikipedia</a>.</p>
+
+            <p>This project was created for COM-480: Data Visualization class on <a href="https://epfl.ch">EPFL</a> by the proud team:
+              <ul>
+                <li>Ravinithesh Annapureddy</li>
+                <li>Michal Bien</li>
+                <li>Anmol Prasad</li>
+              </ul>
+            </p>
+
+            <p>You can select the prefered timespan and profession to narrow down the list of famous people to your search needs. 
+              Then, explore the historical information by clicking on the photo marker. It's as simple as that!</p>
+        </div>
+
+        <div class="sidebar-pane" id="timespan">
+            <h1 class="sidebar-header">Lifespan filter<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            <div id="lifespan-slider"></div>
+            <div class="lifespan-input">
+              <label for="from">From: </label>
+              <input type="number" id="from">
+            </div>
+            <div class="lifespan-input">
+              <label for="to">To: </label>
+              <input type="number" id="to">
+            </div>
+        </div>
+
+        <div class="sidebar-pane" id="profession">
+            <h1 class="sidebar-header">Profession<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            <p>
+              Select the profession filters from the list. Multiple choices are available.
+            </p>
+            <div class="select2-selector">
+            <select id="profession-selector" style="width: 100%;" multiple="multiple"></select>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div id="map-holder" class="sidebar-map"></div>
+
+
+  <script src="https://d3js.org/d3.v6.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="leaflet-sidebar.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.2.0/wNumb.min.js"></script>
+  <script src="myscript.js"></script>
+</body>
+</html>
