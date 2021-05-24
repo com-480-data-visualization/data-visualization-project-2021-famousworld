@@ -1,39 +1,59 @@
-<meta charset="utf-8">
-<head>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-   crossorigin=""/>
-</head>
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js"></script>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin=""></script>
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8">
+	<head>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+	   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+	   crossorigin=""/>
+	</head>
+	
+	<script>
+		function init() { 
+			// console.log("init");
+			window.parent.setUpFrame(); 
+			return true; 
+		}
+		function populate(arg){
+			// console.log("populate");
+			// console.log(arg);
+			document.getElementById("name").innerHTML = arg.name;
+			document.getElementById("yob").innerHTML = arg.birthyear;
+			document.getElementById("pob").innerHTML = arg.bplace_name;
+			document.getElementById("occ").innerHTML = arg.occupation;
+			document.getElementById("yod").innerHTML = arg.deathyear;
+			document.getElementById("pod").innerHTML = arg.dplace_name;
+			document.getElementById("about").innerHTML = arg.summary;
+			document.getElementById("img").src = arg.pic;
+			// console.log(arg.summary);
+		}
+	</script>
+	<link rel="stylesheet" href="style_popup.css">
+	<body onload="init();" style="color:white">
 
-<link rel="stylesheet" href="style_popup.css">
+		<div class="grid-container">
+			<div class="Image">
+			  <img id="img" class="loading" loading='lazy' align='right' /> 
+			  <!-- src="placeholder.png" -->
+			</div>
+			<div class="Basic-Info">
+			  <b>Name:</b> <div id="name"> </div>
+			  <br>
+			  <b>Year of Birth:</b> <div id="yob"> </div>
+			  <br>
+			  <b>Place of Birth:</b> <div id="pob"> </div>
+			  <br>
+			  <b>Occupation:</b> <div id="occ"> </div>
+			  <br>
+			  <b>Year of Death:</b> <div id="yod"> </div>
+			  <br>
+			  <b>Place of Death:</b> <div id="pod"> </div>
+			  <br>
+			</div>
+			<div class="Summary">
+			  <b>About:</b> <div id="about"></div>
+			  <br>
+			</div>
+		</div>
 
-<div class="grid-container">
-	<div class="Image">
-	  <img src="wolfgang-amadeus-mozart.jpeg" width="50%" />
-	</div>
-	<div class="Basic-Info">
-	  <b>Name:</b> Temp Name.
-	  <br>
-	  <b>Year of Birth:</b> Temp Year.
-	  <br>
-	  <b>Place of Birth:</b> Temp Place.
-	  <br>
-	  <b>Occupation:</b> Temp Occupation.
-	  <br>
-	  <b>Year of Death:</b> Temp Year.
-	  <br>
-	  <b>Place of Death:</b> Temp Place.
-	  <br>
-	</div>
-	<div class="Summary">
-	  <b>About:</b> Temp summary.<br>
-	</div>
-</div>
+	</body>
+</html>

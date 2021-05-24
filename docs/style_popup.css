@@ -1,20 +1,36 @@
+/*img.loading {
+    background: transparent url(loading.gif) no-repeat scroll center center;
+}
+*/
+
 .grid-container {
   display: grid;
-  width: 100vw;
-  height:80vh;
-  grid-template-columns: 0.2fr 1fr 1fr 1fr 1fr 0.2fr;
-  grid-template-rows: 0.2fr 1fr 1fr 1fr 1fr 0.2fr;
+  /*width: 100vw;
+  height:80vh;*/
+  grid-template-columns: 0.1fr 1fr 1fr 1fr 1fr 0.1fr;
+  grid-template-rows: 0.1fr 1fr auto auto 0.1fr;
   gap: 0px 0px;
   grid-template-areas:
     ". . . . . ."
     ". Basic-Info Basic-Info Image Image ."
     ". Basic-Info Basic-Info Image Image ."
     ". Summary Summary Summary Summary ."
-    ". Summary Summary Summary Summary ."
     ". . . . . .";
 }
 
-.Image { grid-area: Image; }
+.Image { 
+  grid-area: Image; 
+  /*border:0.75em black solid;*/
+  overflow:hidden;
+  /*align-items: right*/
+  /*object-fit: fill;*/
+}
+
+img.loading{
+   max-width: 60%;
+
+   /*background: transparent url(loading.gif) no-repeat scroll center center;*/
+ }
 
 .Basic-Info { grid-area: Basic-Info; }
 
