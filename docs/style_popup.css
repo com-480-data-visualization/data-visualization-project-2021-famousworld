@@ -3,6 +3,10 @@
 }
 */
 
+body{
+  font-family: 'Montserrat';font-size: 22px;
+}
+
 .grid-container {
   display: grid;
   /*width: 100vw;
@@ -35,3 +39,18 @@ img.loading{
 .Basic-Info { grid-area: Basic-Info; }
 
 .Summary { grid-area: Summary; }
+
+a {
+  color: #bc6ff1
+}
+a:visited {
+  color: #bc6ff1
+}
+
+a.morelink {
+  text-decoration:none;
+  outline: none;
+}
+.morecontent span {
+  display: none;
+}
