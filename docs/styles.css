@@ -79,6 +79,11 @@ body {
     float:left;
 }
 
+.lifespan-controls {
+  float: right;
+  margin-top: 5vh;
+}
+
 .popup-container {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;

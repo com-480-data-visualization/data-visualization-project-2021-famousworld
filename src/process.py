@@ -27,19 +27,35 @@ def find_commons_image(ids):
 if __name__ == "__main__":
     logger.info("Downloading the CSV...")
     df = pd.read_csv("https://storage.googleapis.com/pantheon-public-data/person_2020_update.csv.bz2")
-    # Work on a small subset to decrease bandwidth
-    df = df[:500]
 
-    # Drop unused columns
-    df.drop(["prob_ratio", "gender", "twitter", "alive", "l_", "age", "coefficient_of_variation"],
+    # Only individuals
+    df = df[df.is_group==False]
+    df.drop(["prob_ratio", "gender", "twitter", "alive",
+            "l_", "l", "age", "coefficient_of_variation", "slug",
+            "birthdate", "deathdate", "bplace_geonameid",
+            "dplace_geonameid", "dplace_geacron_name",
+            "dplace_lat", "dplace_lon", "bplace_geacron_name", "non_en_page_views",
+            "hpi_raw", "is_group"],
             axis=1, inplace=True)
 
+    # Required fields
+    df = df[~df.bplace_lon.isna()]
+    df = df[~df.bplace_lat.isna()]
+    df = df[~df.birthyear.isna()]
+
     logger.info("Getting corresponding images...")
-    # Find the images URL in wikidata
-    images = find_commons_image("wd:"+df.wd_id)
-    images.item = images.item.str.replace("http://www.wikidata.org/entity/", "")
-    images = images.groupby("item").first()
-    df = df.merge(images, left_on='wd_id', right_on='item', how='left')
+    subdfs = []
+
+    # Sparql allows only 500 at time
+    for i in range(10):
+        df_selected = df[(500*i):(500*(i+1))]
+        # Find the images URL in wikidata
+        images = find_commons_image("wd:"+df_selected.wd_id)
+        images.item = images.item.str.replace("http://www.wikidata.org/entity/", "")
+        images = images.groupby("item").first()
+        subdfs.append(df_selected.merge(images, left_on='wd_id', right_on='item', how='left'))
+
+    df = pd.concat(subdfs)
 
     logger.info("Getting wikipedia summaries...")
     # Get wikipedia page summary for each person

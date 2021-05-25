@@ -151,8 +151,8 @@ data.then(function(data) {
 
 	data.forEach(function(d, i) {
 		
-		var longitude = parseFloat(d.bplace_lon);
-		var latitude = parseFloat(d.bplace_lat);
+		var longitude = parseFloat(d.bplace_lon) + Math.random()*0.1; //Counter the exact same position on map eg. Paris
+		var latitude = parseFloat(d.bplace_lat) + Math.random()*0.1;
 		var imgname = d.pic.split("/")
 		var imgname = imgname[imgname.length - 1]
 		
@@ -245,6 +245,29 @@ noUiSlider.create(slider, {
 	format: wNumb({
         decimals: 0
     })
+});
+
+var fastForwarder = null;
+var fastForwarderDiff = 0;
+document.getElementById("lifespan-play").addEventListener("click", function(){
+	if(fastForwarder==null) {
+		fastForwarderDiff = parseInt(toValue.value) - parseInt(fromValue.value);
+		fastForwarder = setInterval(function (){
+			toValue.value = Math.min(2021, parseInt(toValue.value) + 10);
+			fromValue.value = toValue.value - fastForwarderDiff;
+			var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+			slider.noUiSlider.setHandle(0, fromValue.value);
+			slider.noUiSlider.setHandle(1, toValue.value);
+			updateMarkers(selected, fromValue.value, toValue.value);
+		}, 500);
+	}
+});
+
+document.getElementById("lifespan-pause").addEventListener("click", function(){
+	if(fastForwarder!=null) {
+		clearInterval(fastForwarder);
+		fastForwarder = null;
+	}
 });
 
 
