@@ -6,6 +6,20 @@ a {
   color: white;
 }
 
+/*.leaflet-popup {
+    width:500px ;
+    height: 500px ;
+}
+*/
+  /*.leaflet-popup-content {
+      width: 500px ;
+      height: 500px ;
+  }*/
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+     background: #2A2C39;
+}
+
 body {
   margin: 0;
   background-color: #111;

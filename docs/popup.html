@@ -1,39 +1,102 @@
-<meta charset="utf-8">
-<head>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-   crossorigin=""/>
-</head>
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js"></script>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin=""></script>
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8">
+	<head>
+		<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+	</head>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="popupscript.js"></script>
+	<script>
+		function init() { 
+			// console.log("init");
+			window.parent.setUpFrame(); 
+			return true; 
+		}
+		function populate(arg){
+			// console.log("populate");
+			// console.log(arg);
+			var name=arg.name;
+			var byear=arg.birthyear;
+			var bplace=arg.bplace_name;
+			var dyear=arg.deathyear;
+			var dplace=arg.dplace_name;
+			var occupation=arg.occupation;
+			
+			if(!bplace){
+				bplace="N/A"
+			}
+			if(!dplace){
+				dplace="N/A"
+			}
+			if(!dyear){
+				dyear="N/A"
+			}
+			if(!byear){
+				byear="N/A"
+			}
 
-<link rel="stylesheet" href="style_popup.css">
 
-<div class="grid-container">
-	<div class="Image">
-	  <img src="wolfgang-amadeus-mozart.jpeg" width="50%" />
-	</div>
-	<div class="Basic-Info">
-	  <b>Name:</b> Temp Name.
-	  <br>
-	  <b>Year of Birth:</b> Temp Year.
-	  <br>
-	  <b>Place of Birth:</b> Temp Place.
-	  <br>
-	  <b>Occupation:</b> Temp Occupation.
-	  <br>
-	  <b>Year of Death:</b> Temp Year.
-	  <br>
-	  <b>Place of Death:</b> Temp Place.
-	  <br>
-	</div>
-	<div class="Summary">
-	  <b>About:</b> Temp summary.<br>
-	</div>
-</div>
+			if(dyear!='N/A')
+				if(parseInt(dyear)<0){
+					dyear=parseInt(dyear.replace('-',''))+' B.C'
+
+				}
+				else{
+					dyear=parseInt(dyear)//+' A.D'
+				}
+
+			if(byear!='N/A')
+				if(parseInt(byear)<0){
+					byear=parseInt(byear.replace('-',''))+' B.C'
+				}
+				else{
+					byear=parseInt(byear)//+' A.D'
+				}
+
+
+			
+
+			document.getElementById("name").innerHTML = name
+			document.getElementById("yob").innerHTML = byear
+			document.getElementById("pob").innerHTML = bplace
+			document.getElementById("occ").innerHTML = occupation
+			document.getElementById("yod").innerHTML = dyear
+			document.getElementById("pod").innerHTML = dplace
+			document.getElementById("about").innerHTML = arg.summary;
+			document.getElementById("img").src = arg.pic;
+			// console.log(arg.summary);
+			inittext()
+		}
+
+
+	</script>
+	
+	<link rel="stylesheet" href="style_popup.css">
+	<body onload="init();" style="color:white">
+
+		<div class="grid-container">
+			<div class="Image">
+			  <img id="img" class="loading" loading='lazy' align='right' /> 
+			  <!-- src="placeholder.png" -->
+			</div>
+			<div class="Basic-Info">
+			  <div id="name"> </div>
+			  <br>
+			  <div id="occ"> </div>
+			  <br>
+			  <b>Year of Birth:</b> <div id="yob"> </div>
+			  <br>
+			  <b>Place of Birth:</b> <div id="pob"> </div>
+			  <br>
+			  <b>Year of Death:</b> <div id="yod"> </div>
+			  <br>
+			  <b>Place of Death:</b> <div id="pod"> </div>
+			  <br>
+			</div>
+			<div class="Summary">
+			  <div id="about" class="comment more"></div>
+			</div>
+		</div>
+
+	</body>
+</html>

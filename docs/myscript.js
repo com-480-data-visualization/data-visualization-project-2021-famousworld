@@ -3,7 +3,6 @@
 //var navbar = document.getElementById("navbar");
 
 
-
 var w = $(window).width();
 var h = $(window).height();
 
@@ -23,8 +22,8 @@ var mymap = L.map('map-holder', {
                     markerZoomAnimation: true,
                     maxBoundsViscosity: 0.8,
                     maxBounds: [
-                    [89.9, 180.9],
-                    [-89.9, -180.9]
+                    [89.9, 220.9],
+                    [-89.9, -220.9]
                     ]
                 }).setView([0,0]);
 
@@ -34,27 +33,62 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   subdomains: 'abcd',
   maxZoom: 19,
   bounds: [
-                    [89.9, 180.9],
-                    [-89.9, -180.9]
+                    [89.9, 220.9],
+                    [-89.9, -220.9]
                     ]
   
 }).addTo(mymap);
 
 mymap.setMinZoom( mymap.getBoundsZoom([[50.9, 160.9],[-50.9, -160.9]]));
 
-mymap.on('popupopen', function(e) {
-    var px = mymap.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
-    // console.log(e.target._popup._container.clientHeight)
-    px.y -= e.target._popup._container.clientHeight; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
-    mymap.panTo(mymap.unproject(px),{animate: true}); // pan to new center
-    mymap.setView(e.target._popup._latlng, 3);
+var curr_value=null;
+var curr_marker=null;
+
+
+
+$(window).resize(function() {
+  // console.log(document.body.clientWidth);
+  if(curr_value){
+  		var frame=document.getElementById(curr_value.id);
+		var wn = $(window).width();
+		var hn = $(window).height();
+	  	frame.width=wn*0.6;
+	  	frame.height=hn*0.6;
+
+	  	// var px = mymap.project(curr_marker._latlng); // find the pixel location on the map where the popup anchor is
+   
+	   //  px.y -= curr_marker._container.clientHeight/3; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+	   //  mymap.panTo(mymap.unproject(px),{animate: true}); // pan to new center
+	   //  mymap.setView(mymap.unproject(px), 3);
+  }
 });
+
+mymap.on('popupopen', function(e) {
+	// curr_value=null;
+
+    var px = mymap.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
+   
+    px.y -= e.target._popup._container.clientHeight/3; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+    mymap.panTo(mymap.unproject(px),{animate: true}); // pan to new center
+    mymap.setView(mymap.unproject(px), 3);
+    
+    curr_value=e.target._popup._source.options.data_object;
+    curr_marker=e.target._popup;
+
+});
+
+function setUpFrame() { 
+	// console.log(curr_value);
+    var frame = window.frames['frame-'+curr_value.id];
+    frame.populate(curr_value);
+}
 
 var myStyle = {
     "weight": 1,
     "opacity": 0.65
 
 };
+
 
 var markers = []
 
@@ -112,6 +146,7 @@ var popupTemplate = `
 </div>
 `;
 
+
 const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
 data.then(function(data) {
 
@@ -137,6 +172,18 @@ data.then(function(data) {
 									 .replace("%PICH%", img_h)
 									 .replace("%SUM%", d.summary)
 		
+		
+		
+		popupContent = document.createElement("iframe");
+		popupContent.name='frame-'+d.id
+		popupContent.src = "popup.html";
+		popupContent.width=w*0.6
+		popupContent.height=h*0.6
+		popupContent.id=d.id
+		
+
+		// '<iframe name="frame-'+d.id+'" src="></iframe>'
+
 		var marker = L.marker(L.latLng(latitude,longitude), {
 			icon: L.divIcon({
 				html: img,
@@ -147,9 +194,13 @@ data.then(function(data) {
 				iconAnchor: [30, 30],
 			}),
 			title: d.name,
-		}).bindPopup(popupText, {
-			maxWidth : w*0.6,
-			maxHeight : h*0.4,
+			data_object: d,
+		}).bindPopup(popupContent, {//name="frame-'+d.id+'"  name="frame-pop"
+			// minWidth: w*0.6,
+			// maxWidth: w*0.7,
+			// maxHeight: h*0.7,
+			// minHeight: h*0.6	
+			 maxWidth: "auto"
 		})
 		
 		markers.push({
