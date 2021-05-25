@@ -28,7 +28,7 @@ if __name__ == "__main__":
     logger.info("Downloading the CSV...")
     df = pd.read_csv("https://storage.googleapis.com/pantheon-public-data/person_2020_update.csv.bz2")
     # Work on a small subset to decrease bandwidth
-    df = df[:50]
+    df = df[:500]
 
     # Drop unused columns
     df.drop(["prob_ratio", "gender", "twitter", "alive", "l_", "age", "coefficient_of_variation"],
@@ -38,10 +38,12 @@ if __name__ == "__main__":
     # Find the images URL in wikidata
     images = find_commons_image("wd:"+df.wd_id)
     images.item = images.item.str.replace("http://www.wikidata.org/entity/", "")
-    df = df.merge(images, left_on='wd_id', right_on='item', how='left').drop(["item"], axis=1)
+    images = images.groupby("item").first()
+    df = df.merge(images, left_on='wd_id', right_on='item', how='left')
 
     logger.info("Getting wikipedia summaries...")
     # Get wikipedia page summary for each person
+
     df["summary"] = df.progress_apply(lambda row: wikipedia.page(pageid=row.wp_id).summary, axis=1)
 
     logger.info("Saving to CSV...")

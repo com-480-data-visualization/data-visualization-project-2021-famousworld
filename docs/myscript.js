@@ -70,7 +70,7 @@ mymap.on('popupopen', function(e) {
    
     px.y -= e.target._popup._container.clientHeight/3; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
     mymap.panTo(mymap.unproject(px),{animate: true}); // pan to new center
-    mymap.setView(mymap.unproject(px), 3);
+    //mymap.setView(mymap.unproject(px), 3);
     
     curr_value=e.target._popup._source.options.data_object;
     curr_marker=e.target._popup;
@@ -95,6 +95,8 @@ var markers = []
 // This function is in charge of filtering the markers as we wish
 // input: list of professions and 
 function updateMarkers(professionConstrain, birthFrom, birthTo) {
+	maxActive = 50;
+	currActive = 0;
 	markers.forEach(function(d, i){
 		var activate = true;
 		// Profession filter
@@ -117,6 +119,20 @@ function updateMarkers(professionConstrain, birthFrom, birthTo) {
 			}
 		}
 
+		//Deactivate if not on the visible part of map
+		if(!mymap.getBounds().contains(d.marker.getLatLng())) {
+			activate = false;
+		}
+
+		// Array is sorted by decreasing HPI, so we just have to count
+		// the activated markers to get region top fames.
+		if (activate) {
+			currActive = currActive+1;
+			if(currActive > maxActive) {
+				activate = false;
+			}
+		}
+
 		if(!d.active && activate) {
 			mymap.addLayer(d.marker);
 			d.active = true;
@@ -127,27 +143,8 @@ function updateMarkers(professionConstrain, birthFrom, birthTo) {
 	});
 }
 
-var popupTemplate = `
-<div class="popup-container">
-	<div class="popup-image">
-		<img src="%PICURL%" width="%PICW%" height="%PICH%"/>
-	</div>
-	<div class="popup-info">
-		<p><b>Name: </b> %NAME%.</p>
-		<p><b>Year of Birth:</b> %YOB%.</p>
-		<p><b>Place of Birth:</b> %POB%.</p>
-		<p><b>Occupation:</b> %OCC%.</p>
-		<p><b>Year of Death:</b> %YOD%.</p>
-		<p><b>Place of Death:</b> %POD%.</p>
-	</div>
-	<div class="popup-summary">
-		<p><b>About:</b> %SUM%.</p>
-	</div>
-</div>
-`;
-
-
-const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
+//const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
+const data = d3.csv("dataset.csv");
 data.then(function(data) {
 
 	var professionOptions = [];
@@ -160,19 +157,6 @@ data.then(function(data) {
 		var imgname = imgname[imgname.length - 1]
 		
 		var img="<img src='https://commons.wikimedia.org/w/thumb.php?width=64&f="+ imgname +"' loading='lazy' />"
-
-		var popupText = popupTemplate.replace("%NAME%", d.name)
-									 .replace("%YOB%", d.birthyear)
-									 .replace("%POB%", d.bplace_name)
-									 .replace("%OCC%", d.occupation)
-									 .replace("%YOD%", d.deathyear)
-									 .replace("%POD%", d.dplace_name)
-									 .replace("%PICURL%", d.pic)
-									 .replace("%PICW%", img_w)
-									 .replace("%PICH%", img_h)
-									 .replace("%SUM%", d.summary)
-		
-		
 		
 		popupContent = document.createElement("iframe");
 		popupContent.name='frame-'+d.id
@@ -181,7 +165,6 @@ data.then(function(data) {
 		popupContent.height=h*0.6
 		popupContent.id=d.id
 		
-
 		// '<iframe name="frame-'+d.id+'" src="></iframe>'
 
 		var marker = L.marker(L.latLng(latitude,longitude), {
@@ -237,9 +220,17 @@ var zoomControl = L.control.zoom({ position: 'topright' }).addTo(mymap);
 var fromValue = document.getElementById('from');
 var toValue = document.getElementById('to');
 
+mymap.on("zoomstart", function () { 
+	let selected = $('#profession-selector').find(':selected').toArray().map(option => option.text)
+	updateMarkers(selected, fromValue.value, toValue.value); 
+});
+mymap.on("moveend", function () {
+	let selected = $('#profession-selector').find(':selected').toArray().map(option => option.text)
+	updateMarkers(selected, fromValue.value, toValue.value); 
+});
 
 $('#profession-selector').on('select2:select select2:unselect', function (e) {
-    var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text)
+    let selected = $('#profession-selector').find(':selected').toArray().map(option => option.text)
     updateMarkers(selected, fromValue.value, toValue.value);
 });
 
