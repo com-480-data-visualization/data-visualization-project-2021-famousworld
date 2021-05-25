@@ -143,8 +143,8 @@ function updateMarkers(professionConstrain, birthFrom, birthTo) {
 	});
 }
 
-//const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
-const data = d3.csv("dataset.csv");
+const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
+//const data = d3.csv("dataset.csv");
 data.then(function(data) {
 
 	var professionOptions = [];
