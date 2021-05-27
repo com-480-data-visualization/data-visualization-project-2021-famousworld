@@ -11,19 +11,20 @@ a {
     height: 500px ;
 }
 */
-  /*.leaflet-popup-content {
+/*.leaflet-popup-content {
       width: 500px ;
       height: 500px ;
   }*/
 
-.leaflet-popup-content-wrapper, .leaflet-popup-tip {
-     background: #2A2C39;
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #2a2c39;
 }
 
 body {
   margin: 0;
   background-color: #111;
-  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-family: "Yanone Kaffeesatz", sans-serif;
   font-weight: 200;
   font-size: 17px;
   overflow: hidden;
@@ -32,32 +33,40 @@ body {
 }
 
 #map-holder {
-  background: #2A2C39;
+  background: #2a2c39;
   height: 100%;
 }
 
-.image-icon img {
-    height: 40px ;
-    width: 40px ;
-    border-radius: 50%;
-    border: solid;
-    border-color: #410b41;
+.image-icon_d img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 2px solid;
+  border-color: #410b41;
 }
 
-.country{
-  fill: #d0d0d0;   /* country colour */
-  stroke: #2A2C39; /* country border colour */
+.image-icon_a img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 3px solid;
+  border-color: #bada55;
+}
+
+.country {
+  fill: #d0d0d0; /* country colour */
+  stroke: #2a2c39; /* country border colour */
   stroke-width: 1; /* country border width */
 }
-.country-on{
-  fill: #4B5358;   /* highlight colour for selected country */
+.country-on {
+  fill: #4b5358; /* highlight colour for selected country */
 }
 
-.countryName{
-  fill: #FFFAFF;   /* country label text colour */
+.countryName {
+  fill: #fffaff; /* country label text colour */
 }
-.countryLabelBg{
-  fill: #30BCED;   /* country label background colour */
+.countryLabelBg {
+  fill: #30bced; /* country label background colour */
 }
 
 .select2-container {
@@ -70,13 +79,13 @@ body {
 
 .lifespan-input input {
   float: right;
-  width: 70%
+  width: 70%;
 }
 
 .lifespan-input label {
-    text-align: right;
-    clear: both;
-    float:left;
+  text-align: right;
+  clear: both;
+  float: left;
 }
 
 .lifespan-controls {
@@ -94,5 +103,17 @@ body {
 }
 
 .popup-info {
-  grid-column: 3
+  grid-column: 3;
+}
+
+.select2-selection--multiple:after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 15px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #888;
 }
