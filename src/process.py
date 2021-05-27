@@ -47,7 +47,7 @@ if __name__ == "__main__":
     subdfs = []
 
     # Sparql allows only 500 at time
-    for i in range(10):
+    for i in tqdm(range(4)):
         df_selected = df[(500*i):(500*(i+1))]
         # Find the images URL in wikidata
         images = find_commons_image("wd:"+df_selected.wd_id)
