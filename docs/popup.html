@@ -3,6 +3,8 @@
 	<meta charset="utf-8">
 	<head>
 		<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Eagle+Lake&family=Rochester&display=swap" rel="stylesheet">
 	</head>
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="popupscript.js"></script>
@@ -12,6 +14,15 @@
 			window.parent.setUpFrame(); 
 			return true; 
 		}
+
+		function toTitleCase(str) {
+		  return str.replace(
+		    /\w\S*/g,
+		    function(txt) {
+		      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+		    }
+		  );
+		}
 		function populate(arg){
 			// console.log("populate");
 			// console.log(arg);
@@ -20,7 +31,7 @@
 			var bplace=arg.bplace_name;
 			var dyear=arg.deathyear;
 			var dplace=arg.dplace_name;
-			var occupation=arg.occupation;
+			var occupation=toTitleCase(arg.occupation);
 			
 			if(!bplace){
 				bplace="N/A"
@@ -39,18 +50,27 @@
 			if(dyear!='N/A')
 				if(parseInt(dyear)<0){
 					dyear=parseInt(dyear.replace('-',''))+' B.C'
-
 				}
 				else{
 					dyear=parseInt(dyear)//+' A.D'
 				}
-
+			var body= document.getElementById("body")
 			if(byear!='N/A')
-				if(parseInt(byear)<0){
+				if(parseInt(byear)<1000){
 					byear=parseInt(byear.replace('-',''))+' B.C'
+					body.className="oldest"
+				}
+				else if(parseInt(byear)<1500){
+					byear=parseInt(byear)//+' A.D'
+					body.className="older"
+				}
+				else if(parseInt(byear)<1900){
+					byear=parseInt(byear)//+' A.D'
+					body.className="old"
 				}
 				else{
 					byear=parseInt(byear)//+' A.D'
+					body.className="modern"
 				}
 
 
@@ -72,29 +92,37 @@
 	</script>
 	
 	<link rel="stylesheet" href="style_popup.css">
-	<body onload="init();" style="color:white">
+	<body onload="init();" id="body">
+		<div class="scrollable">
 
-		<div class="grid-container">
-			<div class="Image">
-			  <img id="img" class="loading" loading='lazy' align='right' /> 
-			  <!-- src="placeholder.png" -->
-			</div>
-			<div class="Basic-Info">
-			  <div id="name"> </div>
-			  <br>
-			  <div id="occ"> </div>
-			  <br>
-			  <b>Year of Birth:</b> <div id="yob"> </div>
-			  <br>
-			  <b>Place of Birth:</b> <div id="pob"> </div>
-			  <br>
-			  <b>Year of Death:</b> <div id="yod"> </div>
-			  <br>
-			  <b>Place of Death:</b> <div id="pod"> </div>
-			  <br>
-			</div>
-			<div class="Summary">
-			  <div id="about" class="comment more"  align="justify"></div>
+			<div class="grid-container">
+				<div class="Image">
+				  <img id="img" class="loading" loading='lazy' align='right' /> 
+				  <!-- src="placeholder.png" -->
+				</div>
+				<div class="Basic-Info">
+				  <span id="name" style="font-size: 45px; font-weight:bold;"> </span>
+				  <br>
+				  <br>
+				  <span id="occ"> </span>
+				  <br>
+				  <br>
+				  <b class="placeholder">Year of Birth:</b> <span id="yob"> </span>
+				  <br>
+				  <br>
+				  <b class="placeholder">Place of Birth:</b> <span id="pob"> </span >
+				  <br>
+				  <br>
+				  <b class="placeholder">Year of Death:</b> <span id="yod"> </span>
+				  <br>
+				  <br>
+				  <b class="placeholder">Place of Death:</b> <span id="pod"> </span>
+				  <br>
+				  <br>
+				</div>
+				<div class="Summary">
+				  <div id="about" class="comment more"  align="justify"></div>
+				</div>
 			</div>
 		</div>
 

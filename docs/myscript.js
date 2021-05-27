@@ -175,20 +175,24 @@ data.then(function(data) {
 		
 		
 		popupContent = document.createElement("iframe");
+		popupContent.style.overflow="hidden"
 		popupContent.name='frame-'+d.id
 		popupContent.src = "popup.html";
 		popupContent.width=w*0.6
 		popupContent.height=h*0.6
 		popupContent.id=d.id
 		
-
+		class_img='image-icon_d'
 		// '<iframe name="frame-'+d.id+'" src="></iframe>'
+		if(d.birthyear && !d.deathyear){
+			class_img='image-icon_a'
+		}
 
 		var marker = L.marker(L.latLng(latitude,longitude), {
 			icon: L.divIcon({
 				html: img,
 				// Specify a class name we can refer to in CSS.
-				className: 'image-icon',
+				className: class_img,
 				// Set a markers width and height.
 				iconSize: [20, 20],
 				iconAnchor: [30, 30],

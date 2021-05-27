@@ -36,12 +36,20 @@ body {
   height: 100%;
 }
 
-.image-icon img {
+.image-icon_d img {
     height: 40px ;
     width: 40px ;
     border-radius: 50%;
-    border: solid;
+    border: 2px solid;
     border-color: #410b41;
+}
+
+.image-icon_a img {
+    height: 40px ;
+    width: 40px ;
+    border-radius: 50%;
+    border: 3px solid;
+    border-color: #BADA55;
 }
 
 .country{
