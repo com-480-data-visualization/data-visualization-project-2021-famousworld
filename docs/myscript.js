@@ -84,6 +84,8 @@ var markers = [];
 // This function is in charge of filtering the markers as we wish
 // input: list of professions and 
 function updateMarkers (professionConstrain, birthFrom, birthTo) {
+	maxActive = 50;
+	currActive = 0;
 	markers.forEach(function (d, i) {
 		var activate = true;
 		// Profession filter
@@ -106,6 +108,20 @@ function updateMarkers (professionConstrain, birthFrom, birthTo) {
 			}
 		}
 
+		//Deactivate if not on the visible part of map
+		if(!mymap.getBounds().contains(d.marker.getLatLng())) {
+			activate = false;
+		}
+
+		// Array is sorted by decreasing HPI, so we just have to count
+		// the activated markers to get region top fames.
+		if (activate) {
+			currActive = currActive+1;
+			if(currActive > maxActive) {
+				activate = false;
+			}
+		}
+
 		if (!d.active && activate) {
 			mymap.addLayer(d.marker);
 			d.active = true;
@@ -121,15 +137,15 @@ data.then(function (data) {
 
 	var professionOptions = [];
 
-	data.forEach(function (d, i) {
-
-		var longitude = parseFloat(d.bplace_lon);
-		var latitude = parseFloat(d.bplace_lat);
-		var imgname = d.pic.split("/");
-		var imgname = imgname[imgname.length - 1];
-
-		var img = "<img src='https://commons.wikimedia.org/w/thumb.php?width=64&f=" + imgname + "' loading='lazy' />";
-
+	data.forEach(function(d, i) {
+		
+		var longitude = parseFloat(d.bplace_lon) + Math.random()*0.1; //Counter the exact same position on map eg. Paris
+		var latitude = parseFloat(d.bplace_lat) + Math.random()*0.1;
+		var imgname = d.pic.split("/")
+		var imgname = imgname[imgname.length - 1]
+		
+		var img = "<img src='https://commons.wikimedia.org/w/thumb.php?width=64&f=" + imgname + "' loading='lazy' />"
+		
 		popupContent = document.createElement("iframe");
 		popupContent.style.overflow = "hidden";
 		popupContent.name = 'frame-' + d.id;
@@ -193,9 +209,17 @@ var zoomControl = L.control.zoom({ position: 'topright' }).addTo(mymap);
 var fromValue = document.getElementById('from');
 var toValue = document.getElementById('to');
 
+mymap.on("zoomstart", function () { 
+	let selected = $('#profession-selector').find(':selected').toArray().map(option => option.text)
+	updateMarkers(selected, fromValue.value, toValue.value); 
+});
+mymap.on("moveend", function () {
+	let selected = $('#profession-selector').find(':selected').toArray().map(option => option.text)
+	updateMarkers(selected, fromValue.value, toValue.value); 
+});
 
 $('#profession-selector').on('select2:select select2:unselect', function (e) {
-	var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+	let selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
 	updateMarkers(selected, fromValue.value, toValue.value);
 });
 
@@ -210,6 +234,29 @@ noUiSlider.create(slider, {
 	format: wNumb({
 		decimals: 0
 	})
+});
+
+var fastForwarder = null;
+var fastForwarderDiff = 0;
+document.getElementById("lifespan-play").addEventListener("click", function(){
+	if(fastForwarder==null) {
+		fastForwarderDiff = parseInt(toValue.value) - parseInt(fromValue.value);
+		fastForwarder = setInterval(function (){
+			toValue.value = Math.min(2021, parseInt(toValue.value) + 10);
+			fromValue.value = toValue.value - fastForwarderDiff;
+			var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+			slider.noUiSlider.setHandle(0, fromValue.value);
+			slider.noUiSlider.setHandle(1, toValue.value);
+			updateMarkers(selected, fromValue.value, toValue.value);
+		}, 500);
+	}
+});
+
+document.getElementById("lifespan-pause").addEventListener("click", function(){
+	if(fastForwarder!=null) {
+		clearInterval(fastForwarder);
+		fastForwarder = null;
+	}
 });
 
 
