@@ -3,55 +3,50 @@
 }
 */
 
-
-
-body.oldest{
-  background-image: url('scroll.jpg');
+body.oldest {
+  background-image: url("scroll.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: auto;
-  font-family: 'Eagle Lake', cursive;
-  font-size: 16px;
+  font-family: "MedievalSharp", cursive;
 }
 
-body.older{
-  background-image: url('old_page.jpg');
+body.older {
+  background-image: url("old_page.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
- 
+  font-family: "Berkshire Swash", cursive;
 }
 
-body.old{
-  background-image: url('old_page.jpg');
+body.old {
+  background-image: url("old.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  font-family: 'Berkshire Swash', cursive;
+  font-family: "Goudy Bookletter 1911", serif;
 }
 
-body{
+body {
   background-color: #bebebe;
   background-repeat: no-repeat;
   background-position: center;
   background-size: auto;
-  font-family: 'Montserrat';
+  font-family: "Libre Caslon Text", serif;
   font-size: 22px;
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
 }
 
-body::-webkit-scrollbar{
+body::-webkit-scrollbar {
   background-color: white;
   background-repeat: no-repeat;
   background-position: center;
   background-size: auto;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-size: 22px;
-  display: none;  
+  display: none;
 }
-
-
 
 .grid-container {
   display: grid;
@@ -68,39 +63,43 @@ body::-webkit-scrollbar{
     ". . . . . .";
 }
 
-.Image { 
-  grid-area: Image; 
+.Image {
+  grid-area: Image;
   /*border:0.75em black solid;*/
-  overflow:hidden;
+  overflow: hidden;
   /*align-items: right*/
   /*object-fit: fill;*/
 }
 
-img.loading{
-   max-width: 100%;
+img.loading {
+  max-width: 100%;
 
-   /*background: transparent url(loading.gif) no-repeat scroll center center;*/
- }
+  /*background: transparent url(loading.gif) no-repeat scroll center center;*/
+}
 
-.Basic-Info { grid-area: Basic-Info; }
+.Basic-Info {
+  grid-area: Basic-Info;
+}
 
-.Summary { grid-area: Summary; }
+.Summary {
+  grid-area: Summary;
+}
 
 a {
-  color: #bc6ff1
+  color: #bc6ff1;
 }
 a:visited {
-  color: #bc6ff1
+  color: #bc6ff1;
 }
 
 a.morelink {
-  text-decoration:none;
+  text-decoration: none;
   outline: none;
 }
 .morecontent span {
   display: none;
 }
 
-b.placeholder{
-  color: #777777
+b.placeholder {
+  color: #777777;
 }
