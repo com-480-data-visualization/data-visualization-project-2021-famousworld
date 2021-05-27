@@ -37,7 +37,7 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
         for (i = this._sidebar.children.length - 1; i >= 0; i--) {
             child = this._sidebar.children[i];
             if (child.tagName == 'DIV' &&
-                    L.DomUtil.hasClass(child, 'sidebar-content'))
+                L.DomUtil.hasClass(child, 'sidebar-content'))
                 this._container = child;
         }
 
@@ -77,9 +77,9 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
         for (i = this._tabitems.length - 1; i >= 0; i--) {
             child = this._tabitems[i];
             var sub = child.querySelector('a');
-            if (sub.hasAttribute('href') && sub.getAttribute('href').slice(0,1) == '#') {
+            if (sub.hasAttribute('href') && sub.getAttribute('href').slice(0, 1) == '#') {
                 L.DomEvent
-                    .on(sub, 'click', L.DomEvent.preventDefault )
+                    .on(sub, 'click', L.DomEvent.preventDefault)
                     .on(sub, 'click', this._onClick, child);
             }
         }
@@ -98,10 +98,10 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @param {L.Map} map
      * @returns {Sidebar}
      */
-     removeFrom: function(map) {
-         console.log('removeFrom() has been deprecated, please use remove() instead as support for this function will be ending soon.');
-         this.remove(map);
-     },
+    removeFrom: function (map) {
+        console.log('removeFrom() has been deprecated, please use remove() instead as support for this function will be ending soon.');
+        this.remove(map);
+    },
 
     /**
      * Remove this sidebar from the map.
@@ -132,7 +132,7 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      *
      * @param {string} id - The id of the tab to show (without the # character)
      */
-    open: function(id) {
+    open: function (id) {
         var i, child;
 
         // hide old active contents and show new content
@@ -167,7 +167,7 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
     /**
      * Close the sidebar (if necessary).
      */
-    close: function() {
+    close: function () {
         // remove old active highlights
         for (var i = this._tabitems.length - 1; i >= 0; i--) {
             var child = this._tabitems[i];
@@ -187,7 +187,7 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
     /**
      * @private
      */
-    _onClick: function() {
+    _onClick: function () {
         if (L.DomUtil.hasClass(this, 'active'))
             this._sidebar.close();
         else if (!L.DomUtil.hasClass(this, 'disabled'))
