@@ -7,6 +7,7 @@ import requests
 import csv
 import wikipedia
 from tqdm import tqdm
+import time
 
 tqdm.pandas()
 logging.basicConfig(level=logging.INFO)
@@ -43,19 +44,24 @@ if __name__ == "__main__":
     df = df[~df.bplace_lat.isna()]
     df = df[~df.birthyear.isna()]
 
+    # Weird bug in data
+    df.loc[2116, "wp_id"] = 65527371
+
     logger.info("Getting corresponding images...")
     subdfs = []
 
     # Sparql allows only 500 at time
-    for i in tqdm(range(4)):
+    for i in tqdm(range(10)):
         df_selected = df[(500*i):(500*(i+1))]
         # Find the images URL in wikidata
         images = find_commons_image("wd:"+df_selected.wd_id)
         images.item = images.item.str.replace("http://www.wikidata.org/entity/", "")
         images = images.groupby("item").first()
         subdfs.append(df_selected.merge(images, left_on='wd_id', right_on='item', how='left'))
+        time.sleep(5)
 
     df = pd.concat(subdfs)
+    df = df[~df.pic.isna()]
 
     logger.info("Getting wikipedia summaries...")
     # Get wikipedia page summary for each person
