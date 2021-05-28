@@ -38,7 +38,7 @@ if __name__ == "__main__":
     df = pd.read_csv("https://storage.googleapis.com/pantheon-public-data/person_2020_update.csv.bz2")
 
     # Only individuals
-    df = df[~df.is_group]
+    df = df[df.is_group==False]
     df.drop(["prob_ratio", "gender", "twitter", "alive",
              "l_", "l", "age", "coefficient_of_variation", "slug",
              "birthdate", "deathdate", "bplace_geonameid",
