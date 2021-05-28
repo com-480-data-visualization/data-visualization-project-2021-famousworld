@@ -60,7 +60,7 @@ mymap.on('popupopen', function (e) {
 
 	px.y -= e.target._popup._container.clientHeight / 3; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
 	mymap.panTo(mymap.unproject(px), { animate: true }); // pan to new center
-	mymap.setView(mymap.unproject(px), 3);
+	mymap.setView(mymap.unproject(px), mymap.getZoom() + 1);
 
 	curr_value = e.target._popup._source.options.data_object;
 	curr_marker = e.target._popup;
@@ -109,15 +109,15 @@ function updateMarkers (professionConstrain, birthFrom, birthTo) {
 		}
 
 		//Deactivate if not on the visible part of map
-		if(!mymap.getBounds().contains(d.marker.getLatLng())) {
+		if (!mymap.getBounds().contains(d.marker.getLatLng())) {
 			activate = false;
 		}
 
 		// Array is sorted by decreasing HPI, so we just have to count
 		// the activated markers to get region top fames.
 		if (activate) {
-			currActive = currActive+1;
-			if(currActive > maxActive) {
+			currActive = currActive + 1;
+			if (currActive > maxActive) {
 				activate = false;
 			}
 		}
@@ -137,15 +137,15 @@ data.then(function (data) {
 
 	var professionOptions = [];
 
-	data.forEach(function(d, i) {
-		
-		var longitude = parseFloat(d.bplace_lon) + Math.random()*0.1; //Counter the exact same position on map eg. Paris
-		var latitude = parseFloat(d.bplace_lat) + Math.random()*0.1;
-		var imgname = d.pic.split("/")
-		var imgname = imgname[imgname.length - 1]
-		
-		var img = "<img src='https://commons.wikimedia.org/w/thumb.php?width=64&f=" + imgname + "' loading='lazy' />"
-		
+	data.forEach(function (d, i) {
+
+		var longitude = parseFloat(d.bplace_lon) + Math.random() * 0.1; //Counter the exact same position on map eg. Paris
+		var latitude = parseFloat(d.bplace_lat) + Math.random() * 0.1;
+		var imgname = d.pic.split("/");
+		var imgname = imgname[imgname.length - 1];
+
+		var img = "<img src='https://commons.wikimedia.org/w/thumb.php?width=64&f=" + imgname + "' loading='lazy' />";
+
 		popupContent = document.createElement("iframe");
 		popupContent.style.overflow = "hidden";
 		popupContent.name = 'frame-' + d.id;
@@ -209,13 +209,13 @@ var zoomControl = L.control.zoom({ position: 'topright' }).addTo(mymap);
 var fromValue = document.getElementById('from');
 var toValue = document.getElementById('to');
 
-mymap.on("zoomstart", function () { 
-	let selected = $('#profession-selector').find(':selected').toArray().map(option => option.text)
-	updateMarkers(selected, fromValue.value, toValue.value); 
+mymap.on("zoomstart", function () {
+	let selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+	updateMarkers(selected, fromValue.value, toValue.value);
 });
 mymap.on("moveend", function () {
-	let selected = $('#profession-selector').find(':selected').toArray().map(option => option.text)
-	updateMarkers(selected, fromValue.value, toValue.value); 
+	let selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+	updateMarkers(selected, fromValue.value, toValue.value);
 });
 
 $('#profession-selector').on('select2:select select2:unselect', function (e) {
@@ -238,10 +238,10 @@ noUiSlider.create(slider, {
 
 var fastForwarder = null;
 var fastForwarderDiff = 0;
-document.getElementById("lifespan-play").addEventListener("click", function(){
-	if(fastForwarder==null) {
+document.getElementById("lifespan-play").addEventListener("click", function () {
+	if (fastForwarder == null) {
 		fastForwarderDiff = parseInt(toValue.value) - parseInt(fromValue.value);
-		fastForwarder = setInterval(function (){
+		fastForwarder = setInterval(function () {
 			toValue.value = Math.min(2021, parseInt(toValue.value) + 10);
 			fromValue.value = toValue.value - fastForwarderDiff;
 			var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
@@ -252,8 +252,8 @@ document.getElementById("lifespan-play").addEventListener("click", function(){
 	}
 });
 
-document.getElementById("lifespan-pause").addEventListener("click", function(){
-	if(fastForwarder!=null) {
+document.getElementById("lifespan-pause").addEventListener("click", function () {
+	if (fastForwarder != null) {
 		clearInterval(fastForwarder);
 		fastForwarder = null;
 	}
