@@ -52,8 +52,11 @@ $(window).resize(function () {
 	}
 });
 
+var ispopupopen = false;
+
 mymap.on('popupopen', function (e) {
 	// curr_value=null;
+	ispopupopen = true;
 	sidebar.close();
 
 	var px = mymap.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
@@ -64,6 +67,13 @@ mymap.on('popupopen', function (e) {
 
 	curr_value = e.target._popup._source.options.data_object;
 	curr_marker = e.target._popup;
+
+
+
+});
+
+mymap.on('popupclose', function (e) {
+	ispopupopen = false;
 
 });
 
@@ -84,52 +94,54 @@ var markers = [];
 // This function is in charge of filtering the markers as we wish
 // input: list of professions and 
 function updateMarkers (professionConstrain, birthFrom, birthTo) {
-	maxActive = 50;
-	currActive = 0;
-	markers.forEach(function (d, i) {
-		var activate = true;
-		// Profession filter
-		if (professionConstrain.length > 0) {
-			if (!professionConstrain.includes(d.data.occupation)) {
+	if (!ispopupopen) {
+		maxActive = 50;
+		currActive = 0;
+		markers.forEach(function (d, i) {
+			var activate = true;
+			// Profession filter
+			if (professionConstrain.length > 0) {
+				if (!professionConstrain.includes(d.data.occupation)) {
+					activate = false;
+				}
+			}
+
+			//Birth from filter
+			if (birthFrom != null) {
+				if (parseInt(d.data.birthyear) < birthFrom) {
+					activate = false;
+				}
+			}
+
+			if (birthTo != null) {
+				if (parseInt(d.data.birthyear) > birthTo) {
+					activate = false;
+				}
+			}
+
+			//Deactivate if not on the visible part of map
+			if (!mymap.getBounds().contains(d.marker.getLatLng())) {
 				activate = false;
 			}
-		}
 
-		//Birth from filter
-		if (birthFrom != null) {
-			if (parseInt(d.data.birthyear) < birthFrom) {
-				activate = false;
+			// Array is sorted by decreasing HPI, so we just have to count
+			// the activated markers to get region top fames.
+			if (activate) {
+				currActive = currActive + 1;
+				if (currActive > maxActive) {
+					activate = false;
+				}
 			}
-		}
 
-		if (birthTo != null) {
-			if (parseInt(d.data.birthyear) > birthTo) {
-				activate = false;
+			if (!d.active && activate) {
+				mymap.addLayer(d.marker);
+				d.active = true;
+			} else if (d.active && !activate) {
+				mymap.removeLayer(d.marker);
+				d.active = false;
 			}
-		}
-
-		//Deactivate if not on the visible part of map
-		if (!mymap.getBounds().contains(d.marker.getLatLng())) {
-			activate = false;
-		}
-
-		// Array is sorted by decreasing HPI, so we just have to count
-		// the activated markers to get region top fames.
-		if (activate) {
-			currActive = currActive + 1;
-			if (currActive > maxActive) {
-				activate = false;
-			}
-		}
-
-		if (!d.active && activate) {
-			mymap.addLayer(d.marker);
-			d.active = true;
-		} else if (d.active && !activate) {
-			mymap.removeLayer(d.marker);
-			d.active = false;
-		}
-	});
+		});
+	}
 }
 
 const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
