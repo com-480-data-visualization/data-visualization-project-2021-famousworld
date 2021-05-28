@@ -52,12 +52,9 @@ $(window).resize(function () {
 	}
 });
 
-var ispopupopen = false;
-
 mymap.on('popupopen', function (e) {
-	// curr_value=null;
-	ispopupopen = true;
 	sidebar.close();
+	curr_marker = e.target._popup._source;
 
 	var px = mymap.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
 
@@ -66,15 +63,6 @@ mymap.on('popupopen', function (e) {
 	mymap.setView(mymap.unproject(px), mymap.getZoom() + 1);
 
 	curr_value = e.target._popup._source.options.data_object;
-	curr_marker = e.target._popup;
-
-
-
-});
-
-mymap.on('popupclose', function (e) {
-	ispopupopen = false;
-
 });
 
 function setUpFrame () {
@@ -94,54 +82,52 @@ var markers = [];
 // This function is in charge of filtering the markers as we wish
 // input: list of professions and 
 function updateMarkers (professionConstrain, birthFrom, birthTo) {
-	if (!ispopupopen) {
-		maxActive = 50;
-		currActive = 0;
-		markers.forEach(function (d, i) {
-			var activate = true;
-			// Profession filter
-			if (professionConstrain.length > 0) {
-				if (!professionConstrain.includes(d.data.occupation)) {
-					activate = false;
-				}
-			}
-
-			//Birth from filter
-			if (birthFrom != null) {
-				if (parseInt(d.data.birthyear) < birthFrom) {
-					activate = false;
-				}
-			}
-
-			if (birthTo != null) {
-				if (parseInt(d.data.birthyear) > birthTo) {
-					activate = false;
-				}
-			}
-
-			//Deactivate if not on the visible part of map
-			if (!mymap.getBounds().contains(d.marker.getLatLng())) {
+	maxActive = 50;
+	currActive = 0;
+	markers.forEach(function (d, i) {
+		var activate = true;
+		// Profession filter
+		if (professionConstrain.length > 0) {
+			if (!professionConstrain.includes(d.data.occupation)) {
 				activate = false;
 			}
+		}
 
-			// Array is sorted by decreasing HPI, so we just have to count
-			// the activated markers to get region top fames.
-			if (activate) {
-				currActive = currActive + 1;
-				if (currActive > maxActive) {
-					activate = false;
-				}
+		//Birth from filter
+		if (birthFrom != null) {
+			if (parseInt(d.data.birthyear) < birthFrom) {
+				activate = false;
 			}
+		}
 
-			if (!d.active && activate) {
-				mymap.addLayer(d.marker);
-				d.active = true;
-			} else if (d.active && !activate) {
-				mymap.removeLayer(d.marker);
-				d.active = false;
+		if (birthTo != null) {
+			if (parseInt(d.data.birthyear) > birthTo) {
+				activate = false;
 			}
-		});
-	}
+		}
+
+		//Deactivate if not on the visible part of map
+		if (!mymap.getBounds().contains(d.marker.getLatLng())) {
+			activate = false;
+		}
+
+		// Array is sorted by decreasing HPI, so we just have to count
+		// the activated markers to get region top fames.
+		if (activate) {
+			currActive = currActive + 1;
+			if (currActive > maxActive) {
+				activate = false;
+			}
+		}
+
+		if (!d.active && activate) {
+			mymap.addLayer(d.marker);
+			d.active = true;
+		} else if (d.active && !activate && (curr_marker == null || curr_marker.options.data_object.id != d.marker.options.data_object.id)) {
+			mymap.removeLayer(d.marker);
+			d.active = false;
+		}
+	});
 }
 
 const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
@@ -250,26 +236,36 @@ noUiSlider.create(slider, {
 
 var fastForwarder = null;
 var fastForwarderDiff = 0;
+var velocity = 1;
 document.getElementById("lifespan-play").addEventListener("click", function () {
 	if (fastForwarder == null) {
 		fastForwarderDiff = parseInt(toValue.value) - parseInt(fromValue.value);
+		$("#play-icon").removeClass("fa-play").addClass("fa-pause")
 		fastForwarder = setInterval(function () {
-			toValue.value = Math.min(2021, parseInt(toValue.value) + 10);
+			toValue.value = Math.min(2021, parseInt(toValue.value) + velocity);
 			fromValue.value = toValue.value - fastForwarderDiff;
 			var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
 			slider.noUiSlider.setHandle(0, fromValue.value);
 			slider.noUiSlider.setHandle(1, toValue.value);
 			updateMarkers(selected, fromValue.value, toValue.value);
-		}, 500);
-	}
-});
-
-document.getElementById("lifespan-pause").addEventListener("click", function () {
-	if (fastForwarder != null) {
+		}, 100);
+	} else {
 		clearInterval(fastForwarder);
+		$("#play-icon").removeClass("fa-pause").addClass("fa-play")
 		fastForwarder = null;
 	}
 });
+
+
+document.getElementById("lifespan-backward").addEventListener("click", function () {
+	velocity = Math.max(1, velocity/2)
+	document.getElementById("vel").innerHTML = "x " + velocity
+})
+
+document.getElementById("lifespan-forward").addEventListener("click", function () {
+	velocity = velocity*2
+	document.getElementById("vel").innerHTML = "x " + velocity
+})
 
 
 fromValue.addEventListener('change', function (event) {
