@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     # Weird bug in data
     df.loc[2116, "wp_id"] = 65527371
-    df.loc[3842, "wp_id"] = 67200122
+    df.loc[4058, "wp_id"] = 67200122
 
     logger.info("Getting corresponding images...")
     subdfs = []
