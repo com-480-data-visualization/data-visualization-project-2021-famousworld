@@ -43,7 +43,7 @@ if __name__ == "__main__":
              "l_", "l", "age", "coefficient_of_variation", "slug",
              "birthdate", "deathdate", "bplace_geonameid",
              "dplace_geonameid", "dplace_geacron_name",
-             "dplace_lat", "dplace_lon", "bplace_geacron_name", "non_en_page_views",
+             "bplace_geacron_name", "non_en_page_views",
              "hpi_raw", "is_group"],
             axis=1, inplace=True)
 
