@@ -130,6 +130,10 @@ function updateMarkers (professionConstrain, birthFrom, birthTo) {
 	});
 }
 
+var minimumYear = 0;
+var maximumYear = new Date().getFullYear() //Use the current year, but check in dataset anyway in case of browser issues
+var slider = null;
+
 const data = d3.csv("https://mbien-public.s3.eu-central-1.amazonaws.com/com-480/dataset.csv");
 data.then(function (data) {
 
@@ -178,6 +182,9 @@ data.then(function (data) {
 			'active': false
 		});
 
+		minimumYear = Math.min(minimumYear, parseInt(d.birthyear));
+		maximumYear = Math.max(maximumYear, parseInt(d.birthyear));
+
 		professionOptions.push(d.occupation);
 	});
 
@@ -197,7 +204,31 @@ data.then(function (data) {
 		dropdownParent: $(".sidebar-content")
 	});
 
-	updateMarkers([], -3500, 2021);
+	updateMarkers([], minimumYear, maximumYear);
+
+	slider = document.getElementById('lifespan-slider');
+	noUiSlider.create(slider, {
+		start: [minimumYear, maximumYear],
+		connect: true,
+		range: {
+			'min': minimumYear,
+			'max': maximumYear
+		},
+		format: wNumb({
+			decimals: 0
+		})
+	});
+
+	slider.noUiSlider.on('update', function (values, handle) {
+		if (handle) {
+			toValue.value = values[handle];
+		} else {
+			fromValue.value = values[handle];
+		}
+	
+		var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
+		updateMarkers(selected, fromValue.value, toValue.value);
+	});
 });
 
 var sidebar = L.control.sidebar('sidebar');
@@ -221,19 +252,6 @@ $('#profession-selector').on('select2:select select2:unselect', function (e) {
 	updateMarkers(selected, fromValue.value, toValue.value);
 });
 
-var slider = document.getElementById('lifespan-slider');
-noUiSlider.create(slider, {
-	start: [-3500, 2021],
-	connect: true,
-	range: {
-		'min': -3500,
-		'max': 2021
-	},
-	format: wNumb({
-		decimals: 0
-	})
-});
-
 var fastForwarder = null;
 var fastForwarderDiff = 0;
 var velocity = 1;
@@ -242,13 +260,13 @@ document.getElementById("lifespan-play").addEventListener("click", function () {
 		fastForwarderDiff = parseInt(toValue.value) - parseInt(fromValue.value);
 		$("#play-icon").removeClass("fa-play").addClass("fa-pause")
 		fastForwarder = setInterval(function () {
-			toValue.value = Math.min(2021, parseInt(toValue.value) + velocity);
+			toValue.value = Math.min(maximumYear, parseInt(toValue.value) + velocity);
 			fromValue.value = toValue.value - fastForwarderDiff;
 			var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
 			slider.noUiSlider.setHandle(0, fromValue.value);
 			slider.noUiSlider.setHandle(1, toValue.value);
 			updateMarkers(selected, fromValue.value, toValue.value);
-			if(toValue.value == 2021) {
+			if(toValue.value == maximumYear) {
 				clearInterval(fastForwarder);
 				$("#play-icon").removeClass("fa-pause").addClass("fa-play")
 				fastForwarder = null;
@@ -268,7 +286,7 @@ document.getElementById("lifespan-backward").addEventListener("click", function 
 })
 
 document.getElementById("lifespan-forward").addEventListener("click", function () {
-	velocity = velocity*2
+	velocity = Math.min(8192, velocity*2)
 	document.getElementById("vel").innerHTML = "x " + velocity
 })
 
@@ -286,15 +304,3 @@ toValue.addEventListener('change', function (event) {
 	var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
 	updateMarkers(selected, fromValue.value, toValue.value);
 });
-
-slider.noUiSlider.on('update', function (values, handle) {
-	if (handle) {
-		toValue.value = values[handle];
-	} else {
-		fromValue.value = values[handle];
-	}
-
-	var selected = $('#profession-selector').find(':selected').toArray().map(option => option.text);
-	updateMarkers(selected, fromValue.value, toValue.value);
-});
-

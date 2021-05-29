@@ -117,3 +117,17 @@ body {
   border-right: 5px solid transparent;
   border-top: 5px solid #888;
 }
+
+.play-button-holder {
+  display: inline-block;
+  text-align: center;
+}
+
+.play-button-label {
+  display: block;
+}
+
+.timelapse-buttons {
+  display: inline-flex; /* keep the inline nature of buttons */
+  align-items: flex-start; /* this is default */
+}
