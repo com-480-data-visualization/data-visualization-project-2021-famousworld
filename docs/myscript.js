@@ -248,6 +248,11 @@ document.getElementById("lifespan-play").addEventListener("click", function () {
 			slider.noUiSlider.setHandle(0, fromValue.value);
 			slider.noUiSlider.setHandle(1, toValue.value);
 			updateMarkers(selected, fromValue.value, toValue.value);
+			if(toValue.value == 2021) {
+				clearInterval(fastForwarder);
+				$("#play-icon").removeClass("fa-pause").addClass("fa-play")
+				fastForwarder = null;
+			}
 		}, 100);
 	} else {
 		clearInterval(fastForwarder);
