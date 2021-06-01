@@ -64,8 +64,16 @@
               <input type="number" id="to">
             </div>
             <div class="lifespan-controls">
-              <button id="lifespan-pause"><i class="fas fa-pause"></i></button>
-              <button id="lifespan-play"><i class="fas fa-play"></i></button>
+              <p>To play a timelapse, select the starting year using the "From" handle, then specify window size by adjusting the "To" handle. 
+                The specified window will move forward in time with the velocity specified below until the year 2021.</p>
+              <div class="timelapse-buttons">
+                <button id="lifespan-backward"><i class="fas fa-backward"></i></button>
+                <div class="play-button-holder">
+                  <button id="lifespan-play"><i id="play-icon" class="fas fa-play"></i></button>
+                  <label id="vel" class="play-button-label">x 1</label>
+                </div>
+                <button id="lifespan-forward"><i class="fas fa-forward"></i></button>
+              </div>
             </div>
         </div>
 
