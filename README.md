@@ -33,20 +33,21 @@
 ## Project Organization
 
     ├── README.md          <- The top-level README for developers using this project.
-    ├── data               <- The final, canonical data sets for visualisation.
+    ├── data               <- The final, canonical data sets for visualisation. Files placed here 
+    |                         by preprocessing scripts are automatically pushed to s3.
     │
-    ├── milestones         <- The markdown files, containing the content of the milestones
+    ├── milestones         <- The markdown and PDF files, containing the content of the milestones
     |
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    ├── notebooks          <- Jupyter notebooks used for exploratory data analysis
     |
-    ├── docs              <- Generated analysis as Jekyll static website
+    ├── docs               <- Generated analysis, in form of static HTML5 website
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
     │
-    ├── src                <- Data manipulation code for this project.
+    ├── src                <- Data manipulation code for this project. The file src/process.py is
+    |                         run by the CI automatically on push. Then it downloades the dataset,
+    |                         preprocesses it, and pushes to S3 in the Github Actions pipeline
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
