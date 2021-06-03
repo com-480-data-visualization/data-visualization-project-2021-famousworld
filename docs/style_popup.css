@@ -1,14 +1,10 @@
-/*img.loading {
-    background: transparent url(loading.gif) no-repeat scroll center center;
-}
-*/
-
 body.oldest {
   background-image: url("scroll.jpg");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: auto;
+  background-size: cover;
   font-family: "MedievalSharp", cursive;
+  color: #2d1305;
 }
 
 body.older {
@@ -86,10 +82,10 @@ img.loading {
 }
 
 a {
-  color: #bc6ff1;
+  color: #8d500a;
 }
 a:visited {
-  color: #bc6ff1;
+  color: #8d500a;
 }
 
 a.morelink {
@@ -100,6 +96,18 @@ a.morelink {
   display: none;
 }
 
-b.placeholder {
-  color: #777777;
+.oldest_placeholder {
+  color: #77492f;
+}
+
+.older_placeholder {
+  color: #621d1d;
+}
+
+.old_placeholder {
+  color: #5c3722;
+}
+
+.placeholder {
+  color: #642603;
 }
