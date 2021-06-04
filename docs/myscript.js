@@ -78,15 +78,26 @@ var myStyle = {
 
 
 var markers = [];
+var currlinks= [];
+var currpath=null;
+var deathmarker=null;
 
 // This function is in charge of filtering the markers as we wish
 // input: list of professions and 
 function updateMarkers (professionConstrain, birthFrom, birthTo) {
 	maxActive = 50;
 	currActive = 0;
+	currlinks.forEach(function(entry) {
+		    entry.remove();
+		    // console.log("here")
+	})
+	currlinks=[]
+	var gps=[]
+	
 	markers.forEach(function (d, i) {
 		var activate = true;
 		// Profession filter
+
 		if (professionConstrain.length > 0) {
 			if (!professionConstrain.includes(d.data.occupation)) {
 				activate = false;
@@ -128,6 +139,30 @@ function updateMarkers (professionConstrain, birthFrom, birthTo) {
 			d.active = false;
 		}
 	});
+
+	markers.forEach(function (d, i) {
+		ltln=d.marker.getLatLng()
+		// console.log(ltln)
+		if(d.active)
+			gps.push([parseFloat(ltln.lat),parseFloat(ltln.lng)])
+	});
+	
+
+	if(professionConstrain.length > 0){
+		// console.log(gps.length,gps)
+		for (var i = 0; i < gps.length-1; i++) { 
+			if(!(gps[i][0]===gps[i+1][0]) && !(gps[i][1]===gps[i+1][1]))
+				currlinks.push(L.Polyline.Arc(gps[i], gps[i+1], {
+					    vertices: 200,
+					    weight: 1,
+					    opacity: 0.5,
+				}))
+		}
+		currlinks.forEach(function(entry) {
+		    entry.addTo(mymap);
+		})
+	}
+
 }
 
 var minimumYear = 0;
@@ -175,6 +210,54 @@ data.then(function (data) {
 		}).bindPopup(popupContent, {
 			maxWidth: "auto"
 		});
+
+		if(d.dplace_lat){
+			marker.on('mouseover',function(ev) {
+				if(currpath){
+					mymap.removeLayer(currpath);
+				}
+				if(deathmarker){
+					mymap.removeLayer(deathmarker);
+				}
+				
+
+				var route = [[latitude , longitude],[d.dplace_lat,d.dplace_lon]]
+				for (var i = 0, latlngs = [], len = route.length; i < len; i++) {
+						latlngs.push(new L.LatLng(route[i][0], route[i][1]));
+					}
+				currpath = L.polyline(latlngs);
+				mymap.addLayer(currpath);
+				currpath.snakeIn();
+				currpath.on('snakeend', function(ev){
+					deathmarker = L.circle(L.latLng([d.dplace_lat,d.dplace_lon]), {
+								    color: 'white',
+								    fillColor: '#f03',
+								    fillOpacity: 0.5,
+								    radius: 50
+								}).addTo(mymap)
+					var dyear=d.deathyear
+					if (parseInt(dyear) < 0) {
+						dyear = parseInt(dyear.replace('-', '')) + ' B.C'
+					}
+					else {
+						dyear = parseInt(dyear)//+' A.D'
+					}
+					deathmarker.bindTooltip(d.name+" died in "+d.dplace_name+" in the year "+dyear).openTooltip();
+				});
+			});
+
+			marker.on('mouseout',function(ev) {
+				if(currpath){
+					mymap.removeLayer(currpath);
+				}
+				if(deathmarker){
+					mymap.removeLayer(deathmarker);
+				}
+				
+			  currpath=null;
+			  deathmarker=null;
+			});
+		}
 
 		markers.push({
 			'data': d,
