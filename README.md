@@ -26,7 +26,7 @@
 
 [Click here](https://com-480-data-visualization.github.io/data-visualization-project-2021-famousworld/) to open FamousWorld interactive visualization on Github Pages (latest version of Chrome or Firefox preferred)
 
-[Click here](TODO) to view the our explanatory screencast video 
+[Click here](https://youtu.be/SFhU02K0KMg) to view the our explanatory screencast video 
 
 [Click here](TODO) to read our process boook
 
