@@ -1,5 +1,5 @@
 body.oldest {
-  background-image: url("scroll.jpg");
+  background-image: url("./img/scroll.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -8,7 +8,7 @@ body.oldest {
 }
 
 body.older {
-  background-image: url("old_page.jpg");
+  background-image: url("./img/old_page.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -16,7 +16,7 @@ body.older {
 }
 
 body.old {
-  background-image: url("old.jpg");
+  background-image: url("./img/old.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
