@@ -26,14 +26,14 @@
 
 [Click here](https://com-480-data-visualization.github.io/data-visualization-project-2021-famousworld/) to open FamousWorld interactive visualization on Github Pages (latest version of Chrome or Firefox preferred)
 
-[Click here](https://youtu.be/SFhU02K0KMg) to view the our explanatory screencast video 
+[Click here](https://youtu.be/SFhU02K0KMg) to view the our explanatory screencast video
 
-[Click here](TODO) to read our process boook
+[Click here](./milestones/Process_Book.pdf) to read our process boook
 
 ## Project Organization
 
     ├── README.md          <- The top-level README for developers using this project.
-    ├── data               <- The final, canonical data sets for visualisation. Files placed here 
+    ├── data               <- The final, canonical data sets for visualisation. Files placed here
     |                         by preprocessing scripts are automatically pushed to s3.
     │
     ├── milestones         <- The markdown and PDF files, containing the content of the milestones
